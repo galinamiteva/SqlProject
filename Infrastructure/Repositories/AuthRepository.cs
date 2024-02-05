@@ -25,7 +25,7 @@ namespace Infrastructure.Repositories
 
 
             }
-            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
             return null!;
         }
 
@@ -43,7 +43,7 @@ namespace Infrastructure.Repositories
 
 
             }
-            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
             return null!;
         }
     }

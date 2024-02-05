@@ -30,7 +30,7 @@ namespace Infrastructure.Repositories
                 _context.SaveChanges();
                 return entity;
             }
-            catch (Exception ex ) { Debug.WriteLine(ex.Message); }
+            catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
             return null!;
 
         }
@@ -44,7 +44,7 @@ namespace Infrastructure.Repositories
                 var entity = _context.Set<TEntity>().FirstOrDefault(expression);
                 return entity!;
             }
-            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
             return null!;
 
         }
@@ -57,7 +57,7 @@ namespace Infrastructure.Repositories
             {
                 return _context.Set<TEntity>().ToList();
             }
-            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
             return null!;
         }
 
@@ -78,7 +78,7 @@ namespace Infrastructure.Repositories
 
                 return entityToUpdate!;
             }
-            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
             return null!;
         }
 
@@ -92,7 +92,7 @@ namespace Infrastructure.Repositories
 
                 return true;
             }
-            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
             return false;
         }
 
@@ -102,7 +102,7 @@ namespace Infrastructure.Repositories
             {
                 return _context.Set<TEntity>().Any(expression);
             }
-            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
             return false;
         }
 
