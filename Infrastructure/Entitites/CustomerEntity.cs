@@ -1,9 +1,13 @@
 ﻿
 
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace Infrastructure.Entitites;
 
+
+
+[Index(nameof(Email), IsUnique = true)]
 public class CustomerEntity
 {
     [Key]
@@ -23,7 +27,7 @@ public class CustomerEntity
     public virtual RoleEntity Role { get; set; } = null!;
 
 
-    //public virtual AuthEntity Auth { get; set; } = null!;
+    public virtual AuthEntity Auth { get; set; } = null!;
 
-    //public virtual ContactEntity Contact { get; set; } = null!;
+    public virtual ContactEntity Contact { get; set; } = null!;
 }

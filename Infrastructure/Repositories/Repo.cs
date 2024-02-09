@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Microsoft.EntityFrameworkCore.Update.Internal;
 using System;
@@ -9,102 +10,132 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repositories
+namespace Infrastructure.Repositories;
+
+public abstract class Repo<TEntity> where TEntity : class
 {
-    public abstract class Repo<TEntity> where TEntity : class
+    private readonly DataContext _context;
+
+    protected Repo(DataContext context)
     {
-        private readonly DataContext _context;
+        _context = context;
+    }
 
-        protected Repo(DataContext context)
+
+    //Create
+    public virtual TEntity Create (TEntity entity)
+    {
+        try
         {
-            _context = context;
+            _context.Set<TEntity>().Add(entity);
+            _context.SaveChanges();
+            return entity;
         }
-
-
-        //Create
-        public virtual TEntity Create (TEntity entity)
-        {
-            try
-            {
-                _context.Set<TEntity>().Add(entity);
-                _context.SaveChanges();
-                return entity;
-            }
-            catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
-            return null!;
-
-        }
-
-
-        //GetOne
-        public virtual TEntity GetOne(Expression<Func<TEntity, bool>> expression)
-        {
-            try
-            {
-                var entity = _context.Set<TEntity>().FirstOrDefault(expression);
-                return entity!;
-            }
-            catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
-            return null!;
-
-        }
-
-
-        //GetAll
-        public virtual IEnumerable<TEntity> GetAll()
-        {
-            try
-            {
-                return _context.Set<TEntity>().ToList();
-            }
-            catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
-            return null!;
-        }
-
-        //Update
-        public virtual TEntity Update(Expression<Func<TEntity, bool>> expression, TEntity entity)
-        {
-            try
-            {
-                var entityToUpdate = _context.Set<TEntity>().FirstOrDefault(expression);
-                
-                if(entityToUpdate != null)
-                {
-                    //!!!!  PROVERI  entityToUpdate = entity;
-                    _context.Entry(entityToUpdate).CurrentValues.SetValues(entity);
-                    _context.SaveChanges();
-                }
-
-
-                return entityToUpdate!;
-            }
-            catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
-            return null!;
-        }
-
-        public virtual bool Delete(Expression<Func<TEntity, bool>> expression)
-        {
-            try
-            {
-                var entity = _context.Set<TEntity>().FirstOrDefault(expression);
-                _context.Remove(entity!);
-                _context.SaveChanges();
-
-                return true;
-            }
-            catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
-            return false;
-        }
-
-        public bool Exists (Expression<Func<TEntity, bool>> expression)
-        {
-            try
-            {
-                return _context.Set<TEntity>().Any(expression);
-            }
-            catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
-            return false;
-        }
+        catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
+        return null!;
 
     }
+
+
+    //GetOne
+    public virtual TEntity GetOne(Expression<Func<TEntity, bool>> expression)
+    {
+        try
+        {
+            var entity = _context.Set<TEntity>().FirstOrDefault(expression);
+            return entity!;
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
+        return null!;
+
+    }
+
+    //GetOne async
+    public virtual async Task <TEntity> GetOneAsync(Expression<Func<TEntity, bool>> expression)
+    {
+        try
+        {
+            var entity =await _context.Set<TEntity>().FirstOrDefaultAsync(expression);
+            return entity!;
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
+        return null!;
+
+    }
+    //GetAll
+    public virtual IEnumerable<TEntity> GetAll()
+    {
+        try
+        {
+            return _context.Set<TEntity>().ToList();
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
+        return null!;
+    }
+
+    //Update
+    public virtual  TEntity Update(Expression<Func<TEntity, bool>> expression, TEntity entity)
+    {
+        try
+        {
+            var entityToUpdate = _context.Set<TEntity>().FirstOrDefault(expression, entity);
+            
+            if(entityToUpdate != null)
+            {
+                
+                _context.Entry(entityToUpdate).CurrentValues.SetValues(entity);
+                _context.SaveChanges();
+
+                return entityToUpdate;
+            }            
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
+        return null!;
+    }
+
+    // UpdateAsync
+    public virtual async Task<TEntity> UpdateAsync(Expression<Func<TEntity, bool>> expression, TEntity entity)
+
+    {
+        try
+        {
+            var entityToUpdate = await _context.Set<TEntity>().FirstOrDefaultAsync(expression);
+
+            if (entityToUpdate != null)
+            {
+               
+                _context.Entry(entityToUpdate).CurrentValues.SetValues(entity);
+                await _context.SaveChangesAsync();
+
+                return entityToUpdate;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
+        return null!;
+    }
+
+    public virtual bool Delete(Expression<Func<TEntity, bool>> expression)
+    {
+        try
+        {
+            var entity = _context.Set<TEntity>().FirstOrDefault(expression);
+            _context.Remove(entity!);
+            _context.SaveChanges();
+
+            return true;
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
+        return false;
+    }
+
+    public bool Exists (Expression<Func<TEntity, bool>> expression)
+    {
+        try
+        {
+            return _context.Set<TEntity>().Any(expression);
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
+        return false;
+    }
+
 }

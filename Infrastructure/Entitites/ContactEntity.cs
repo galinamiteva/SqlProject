@@ -9,6 +9,7 @@ public class ContactEntity
     [Key]
 
     public Guid CustomerId { get; set; }
+
     [Required]
     public string FirstName { get; set; } = null!;
 

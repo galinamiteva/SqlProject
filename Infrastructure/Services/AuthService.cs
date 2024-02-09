@@ -43,6 +43,12 @@ public class AuthService
         return authentications;
     }
 
+    public AuthEntity GetOneAuthByCustomerId(Guid customerId)
+    {
+        var authEntity = _authRepository.GetOne(x=>x.CustomerId == customerId); 
+        return authEntity;
+
+    }
 
     public AuthEntity UpdateAuth(AuthEntity authEntity)
     {

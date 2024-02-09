@@ -30,9 +30,9 @@ public class ContactService
             };
             var result = _contactRepository.Create(contactEntity);
             if (result != null)
-            {
+            
                 return result;
-            }
+            
 
         }
         catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
