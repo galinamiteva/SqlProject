@@ -22,7 +22,8 @@ namespace Presentation
         {
             builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
             {
-                services.AddDbContext<DataContext>(x=>x.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\ProjectCSharp\SqlProject\Infrastructure\Data\local_database.mdf;Integrated Security=True;Connect Timeout=30"));
+                //services.AddDbContext<DataContext>(x=>x.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\ProjectCSharp\SqlProject\Infrastructure\Data\local_database.mdf;Integrated Security=True;Connect Timeout=30", x=>x.MigrationsAssembly(nameof(Infrastructure))));
+                services.AddDbContext<DataContext>(x => x.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\ProjectCSharp\SqlProject\Infrastructure\Data\local_database.mdf;Integrated Security=True;Connect Timeout=30"), ServiceLifetime.Transient);
 
                 services.AddScoped<RoleRepository>();
                 services.AddScoped<AddressRepository>();
@@ -37,14 +38,18 @@ namespace Presentation
                 services.AddScoped<RoleService>();
 
                 services.AddSingleton<MainWindow>();
-                services.AddSingleton<MainViewModel>();
-                services.AddSingleton<CustomerListViewModel>();
-                services.AddSingleton<CustomerListView>();                
-                services.AddSingleton<AddCustomerViewModel>();
-                services.AddSingleton<AddCustomerView>();
+                services.AddTransient<CustomerListViewModel>();
+                services.AddTransient<CustomerListView>();
+                services.AddTransient<MainViewModel>();                                
+                services.AddTransient<AddCustomerViewModel>();
+                services.AddTransient<AddCustomerView>();
+                services.AddTransient<DetailsCustomerViewModel>();
+                services.AddTransient<DetailCustomerView>();
+                services.AddTransient<UpdateCustomerViewModel>();
+                services.AddTransient<UpdateCustomerView>();
 
-            
-            
+
+
             }).Build();
         }
 
@@ -58,6 +63,7 @@ namespace Presentation
             mainWindow.Show();
 
         }
+
 
 
     }

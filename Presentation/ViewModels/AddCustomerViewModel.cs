@@ -26,7 +26,7 @@ public partial class AddCustomerViewModel : ObservableObject
 
     [RelayCommand]
 
-    private void AddCustomerToList(CustomerDto customer) 
+    private void AddCustomerToList(CustomerDto customerDto) 
     {
         _customerService.CreateCustomer(Customer);
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();

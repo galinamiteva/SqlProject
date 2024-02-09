@@ -6,11 +6,52 @@
              xmlns:local="clr-namespace:Presentation.Views"
              xmlns:dto="clr-namespace:Infrastructure.Dtos;assembly=Infrastructure"
              xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:AddCustomerViewModel}"
             
               mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="600">
              
-    <Grid>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,77">
+            <Label HorizontalContentAlignment=" Center" Margin="20" Content="Add New Customer"/>
             
+            <Label Content="First Name: "/>
+            <TextBox Text="{Binding Customer.FirstName}"/>
+
+            <Label Content="Last Name: "/>
+            <TextBox Text="{Binding Customer.LastName}"/>
+
+            <Label Content="Email: "/>
+            <TextBox Text="{Binding Customer.Email}"/>
+
+            <Label Content="Role: "/>
+            <TextBox Text="{Binding Customer.RoleName}"/>
+
+            <Label Content="Phone Number: "/>
+            <TextBox Text="{Binding Customer.PhoneNumber}"/>
+
+            <Label Content="Street Name: "/>
+            <TextBox Text="{Binding Customer.StreetName}"/>
+            
+            <Label Content="City: "/>
+            <TextBox Text="{Binding Customer.City}"/>
+
+            <Label Content="Postal Code: "/>
+            <TextBox Text="{Binding Customer.PostalCode}"/>
+
+            <Label Content="Login Name: "/>
+            <TextBox Text="{Binding Customer.LoginName}"/>
+
+            <Label Content="Password: "/>
+            <TextBox Text="{Binding Customer.Pass}"/>
+
+            <Button Height="20" Width="200" Margin="0,20,0,10" Content="Save Customer" Command="{Binding AddCuToListCommand}" />
+            <Button Height="20" Width="200" Content="Full Contact List" Command="{Binding NavigateToListCommand}" />
+        </StackPanel>
     </Grid>
 </UserControl>
