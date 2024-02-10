@@ -16,7 +16,7 @@ namespace Presentation
     /// </summary>
     public partial class App : Application
     {
-        private IHost? builder;
+        private IHost builder;
 
         public App()
         {
@@ -24,13 +24,14 @@ namespace Presentation
             {
                 //services.AddDbContext<DataContext>(x=>x.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\ProjectCSharp\SqlProject\Infrastructure\Data\local_database.mdf;Integrated Security=True;Connect Timeout=30", x=>x.MigrationsAssembly(nameof(Infrastructure))));
                 services.AddDbContext<DataContext>(x => x.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\ProjectCSharp\SqlProject\Infrastructure\Data\local_database.mdf;Integrated Security=True;Connect Timeout=30"), ServiceLifetime.Transient);
-
+                    
+                        //Repositories
                 services.AddScoped<RoleRepository>();
                 services.AddScoped<AddressRepository>();
                 services.AddScoped<CustomerRepository>();
                 services.AddScoped<AuthRepository>();
                 services.AddScoped<ContactRepository>();
-
+                        //Service
                 services.AddScoped<RoleService>();
                 services.AddScoped<AddressService>();   
                 services.AddScoped<CustomerService>();
@@ -38,9 +39,10 @@ namespace Presentation
                 services.AddScoped<RoleService>();
 
                 services.AddSingleton<MainWindow>();
+                services.AddSingleton<MainViewModel>();
+
                 services.AddTransient<CustomerListViewModel>();
-                services.AddTransient<CustomerListView>();
-                services.AddTransient<MainViewModel>();                                
+                services.AddTransient<CustomerListView>();                                                
                 services.AddTransient<AddCustomerViewModel>();
                 services.AddTransient<AddCustomerView>();
                 services.AddTransient<DetailsCustomerViewModel>();
@@ -55,9 +57,9 @@ namespace Presentation
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            builder!.Start();
+            builder.Start();
 
-            var mainWindow = builder!.Services.GetRequiredService<MainWindow>();
+            var mainWindow = builder.Services.GetRequiredService<MainWindow>();
             var mainViewModel = builder.Services.GetRequiredService<MainViewModel>();
             mainViewModel.CurrentViewModel= builder.Services.GetRequiredService<CustomerListViewModel>();
             mainWindow.Show();

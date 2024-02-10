@@ -2,6 +2,7 @@
 
 using Infrastructure.Entitites;
 using Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Diagnostics;
 
 namespace Infrastructure.Services;
@@ -36,19 +37,26 @@ public class AuthService
         return null!;
     }
 
+    public AuthEntity GetOneAuthByLoginName( string loginName)
+    {
+        var authEntity = _authRepository.GetOne(x => x.LoginName == loginName);
+        return authEntity;
 
+    }
+
+    public AuthEntity GetOneAuthByCustomerId(Guid customerId)
+    {
+        var authEntity = _authRepository.GetOne(x => x.CustomerId == customerId);
+        return authEntity;
+
+    }
     public IEnumerable<AuthEntity> GetAllAuths()
     {
         var authentications = _authRepository.GetAll();
         return authentications;
     }
 
-    public AuthEntity GetOneAuthByCustomerId(Guid customerId)
-    {
-        var authEntity = _authRepository.GetOne(x=>x.CustomerId == customerId); 
-        return authEntity;
-
-    }
+   
 
     public AuthEntity UpdateAuth(AuthEntity authEntity)
     {

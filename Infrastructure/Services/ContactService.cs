@@ -1,44 +1,58 @@
 ﻿
 
+using Infrastructure.Dtos;
 using Infrastructure.Entitites;
 using Infrastructure.Repositories;
 using System.Diagnostics;
 
 namespace Infrastructure.Services;
 
-public class ContactService
+public class ContactService(ContactRepository contactRepository)
 {
-    private readonly ContactRepository _contactRepository;
+    private readonly ContactRepository _contactRepository = contactRepository;
 
-    public ContactService (ContactRepository contactRepository)
-    {
-        _contactRepository = contactRepository;
-    }  
-    
 
-    public ContactEntity CreateContact(string firstName, string lastName, Guid customerId, string? phoneNumber)
+                   //Create
+    public async Task<ContactDto> CreateContactAsync(string firstName, string lastName, Guid customerId, string? phoneNumber)
     {
         try
         {
-            var contactEntity = new ContactEntity()
+           var result = await _contactRepository.GetOneAsync(x=>x.CustomerId == customerId);
+            result ??= await _contactRepository.CreateAsync(new ContactEntity
             {
                 FirstName = firstName,
                 LastName = lastName,
                 CustomerId = customerId,
                 PhoneNumber = phoneNumber
+            });
 
-            };
-            var result = _contactRepository.Create(contactEntity);
-            if (result != null)
-            
-                return result;
-            
+            return new ContactDto { CustomerId = result.CustomerId, FirstName = result.FirstName, LastName = result.LastName, PhoneNumber = result.PhoneNumber };
 
         }
         catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
         return null!;
     }
 
+    public ContactEntity CreateContact(string firstName, string lastName, string phoneNumber, Guid customerId)
+    {
+
+        var contactInformationEntity = new ContactEntity
+        {
+            FirstName = firstName,
+            LastName = lastName,
+            PhoneNumber = phoneNumber,
+            CustomerId = customerId,
+        };
+
+        return _contactRepository.Create(contactInformationEntity);
+    }
+
+
+    public ContactEntity GetOneContact(ContactDto contactDto)
+    {
+        var contactEntity = _contactRepository.GetOne(x => x.FirstName == contactDto.FirstName && x.LastName== contactDto.LastName&&x.PhoneNumber==contactDto.PhoneNumber);
+        return contactEntity;
+    }
     public ContactEntity GetOneContactByCustomerId(Guid customerId)
     {
         var contactEntity = _contactRepository.GetOne(x=>x.CustomerId == customerId);

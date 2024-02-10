@@ -23,12 +23,26 @@ public abstract class Repo<TEntity> where TEntity : class
 
 
     //Create
-    public virtual TEntity Create (TEntity entity)
+
+    public virtual TEntity Create(TEntity entity)
     {
         try
         {
             _context.Set<TEntity>().Add(entity);
             _context.SaveChanges();
+            return entity;
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
+    }
+
+    //Create Async
+    public virtual async Task<TEntity> CreateAsync (TEntity entity)
+    {
+        try
+        {
+            _context.Set<TEntity>().Add(entity);
+            await _context.SaveChangesAsync();
             return entity;
         }
         catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
@@ -50,7 +64,7 @@ public abstract class Repo<TEntity> where TEntity : class
 
     }
 
-    //GetOne async
+    //GetOne Async
     public virtual async Task <TEntity> GetOneAsync(Expression<Func<TEntity, bool>> expression)
     {
         try
@@ -78,7 +92,7 @@ public abstract class Repo<TEntity> where TEntity : class
     {
         try
         {
-            var entityToUpdate = _context.Set<TEntity>().FirstOrDefault(expression, entity);
+            var entityToUpdate = _context.Set<TEntity>().FirstOrDefault(expression);
             
             if(entityToUpdate != null)
             {
@@ -93,7 +107,7 @@ public abstract class Repo<TEntity> where TEntity : class
         return null!;
     }
 
-    // UpdateAsync
+    // Update Async
     public virtual async Task<TEntity> UpdateAsync(Expression<Func<TEntity, bool>> expression, TEntity entity)
 
     {
@@ -114,19 +128,25 @@ public abstract class Repo<TEntity> where TEntity : class
         return null!;
     }
 
+    //Delete
     public virtual bool Delete(Expression<Func<TEntity, bool>> expression)
     {
         try
         {
             var entity = _context.Set<TEntity>().FirstOrDefault(expression);
-            _context.Remove(entity!);
-            _context.SaveChanges();
+            if( entity != null)
+            {
+                _context.Set<TEntity>().Remove(entity!);
+                _context.SaveChanges();
 
-            return true;
+                return true;
+            }
         }
         catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
         return false;
     }
+
+    //Exists method
 
     public bool Exists (Expression<Func<TEntity, bool>> expression)
     {

@@ -17,7 +17,7 @@ public class AddressEntity
     public string City { get; set; }= null!;
 
     [Required]
-    public int  PostalCode { get; set; }
+    public string  PostalCode { get; set; } = null!;
 
     public virtual ICollection<CustomerEntity> Customers { get; set; } = new List<CustomerEntity>();
 

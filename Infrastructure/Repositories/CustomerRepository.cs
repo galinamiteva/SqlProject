@@ -19,6 +19,7 @@ namespace Infrastructure.Repositories
                     .Include(x=>x.Role)
                     .Include(x=>x.Contact)
                     .Include(x=>x.Auth)
+                    .Include(x=>x.Address)
                     .ToList();
 
             }
@@ -34,12 +35,13 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                return _context.Customers
+                var result = _context.Customers
                     .Include(x=>x.Role)
                     .Include(x=>x.Contact)
-                    .Include(x => x.Address)
                     .Include(x => x.Auth)
-                    .FirstOrDefault(expression, null!);
+                    .Include(x => x.Address)                    
+                    .FirstOrDefault(expression);
+                return result!;
             }
             catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
             return null!;
@@ -52,8 +54,8 @@ namespace Infrastructure.Repositories
                 var result = await _context.Customers
                     .Include(x => x.Role)
                     .Include(x => x.Contact)
-                    .Include(x => x.Address)
                     .Include(x => x.Auth)
+                    .Include(x => x.Address)                    
                     .FirstOrDefaultAsync(expression);
                 return result!;
             }

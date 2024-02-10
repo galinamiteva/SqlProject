@@ -8,7 +8,7 @@
              xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:DetailsCustomerViewModel}"             
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="800" d:DesignWidth="600">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
@@ -36,8 +36,12 @@
             
             <TextBlock Text=" "/>
             <TextBlock Text="Role: " FontWeight="Bold"/>
+            <TextBlock Text="{Binding RoleName}"/>
+
+            <TextBlock Text=" "/>
+            <TextBlock Text="Login Name: " FontWeight="Bold"/>
             <TextBlock Text="{Binding LoginName}"/>
-            
+
             <TextBlock Text=" "/>
             <TextBlock Text="Phone Number: " FontWeight="Bold"/>
             <TextBlock Text="{Binding PhoneNumber}"/>
@@ -45,6 +49,9 @@
             <TextBlock Text=" "/>
             <TextBlock Text="Address: " FontWeight="Bold"/>
                 <StackPanel Orientation="Horizontal">
+                    <TextBlock Text=" "/>
+                    <TextBlock Text="{Binding StreetName}"></TextBlock>
+                    
                     <TextBlock Text=" "/>                    
                     <TextBlock Text="{Binding City}"/>
                     

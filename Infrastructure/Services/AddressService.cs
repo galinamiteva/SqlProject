@@ -1,34 +1,68 @@
-﻿
+﻿using Infrastructure.Dtos;
 
 using Infrastructure.Entitites;
 using Infrastructure.Repositories;
+using System.Diagnostics;
+using System.Linq.Expressions;
 
 namespace Infrastructure.Services;
 
-public class AddressService
+public class AddressService(AddressRepository addressRepository)
 {
-    private readonly AddressRepository _addressRepository;
-    public AddressService(AddressRepository addressRepository)
+    private readonly AddressRepository _addressRepository = addressRepository;
+
+    //Create Address async
+    public async Task<AddressDto> CreateAddressAsync(string streetName, string city, string postalCode)
     {
-        _addressRepository = addressRepository;
+        try
+        {
+            var addressEntity = await _addressRepository.GetOneAsync(x => x.StreetName == streetName && x.City == city && x.PostalCode == postalCode);
+            addressEntity ??= await _addressRepository.CreateAsync(new AddressEntity { StreetName = streetName, City = city, PostalCode = postalCode });
+            return new AddressDto {Id=addressEntity.Id, StreetName=addressEntity.StreetName, PostalCode=addressEntity.PostalCode, City=addressEntity.City };
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
+        return null!;
     }
 
 
-    public AddressEntity CreateAddress(string streetName, string city, int postalCode)
+
+                //Create Address 
+    public AddressEntity CreateAddress(string streetName, string city, string postalCode)
     {
-        var addressEntity = _addressRepository.GetOne(x => x.StreetName == streetName && x.City == city && x.PostalCode == postalCode);
-        addressEntity ??= _addressRepository.Create(new AddressEntity { StreetName = streetName, City = city, PostalCode = postalCode });
+        
+        
+            var addressEntity = _addressRepository.GetOne(x => x.StreetName == streetName && x.City == city && x.PostalCode == postalCode);
+            addressEntity ??= _addressRepository.Create(new AddressEntity { StreetName = streetName, City = city, PostalCode = postalCode });
+            return new AddressEntity { Id = addressEntity.Id, StreetName = addressEntity.StreetName, PostalCode = addressEntity.PostalCode, City = addressEntity.City };
+       
+    }
+                 //GetOne Address Async
+
+    public async Task<AddressDto> GetAddressAsync(Expression<Func<AddressEntity, bool>> predicate)
+    {
+        try
+        {
+            var result = await _addressRepository.GetOneAsync(predicate);
+            if (result != null)
+            {
+                return new AddressDto { Id = result.Id, StreetName = result.StreetName, City = result.City, PostalCode = result.PostalCode };
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
+        return null!;
+    }
+
+            //GetOne Address
+
+    public AddressEntity GetAddress(string streetName, string postalCode, string city)
+    {
+        var addressEntity = _addressRepository.GetOne(x=>x.StreetName == streetName&&x.PostalCode==postalCode&&x.City==city);
         return addressEntity;
-    }
-
-
-    public AddressEntity GetAddressByStreetName(string streetName)
-    {
-        var addressEntity = _addressRepository.GetOne(x=>x.StreetName == streetName);
-        return addressEntity;
 
     }
-
+                
+    
+                    //GetOne Address by ID
     public AddressEntity GetAddressById(int id)
     {
         var addressEntity = _addressRepository.GetOne(x => x.Id == id);
@@ -36,11 +70,32 @@ public class AddressService
     }
 
 
-
-    public IEnumerable<AddressEntity> GetAllAddresses()
+            //GetAll
+    
+    public IEnumerable<AddressDto> GetAllAddresses()
     {
-        var addresses = _addressRepository.GetAll();    
-        return addresses;
+        var addresses = new List<AddressDto>();
+        try
+        {
+            var result = _addressRepository.GetAll();
+
+            if (result != null)
+            {
+                foreach (var address in result)
+                    addresses.Add(new AddressDto
+                    {
+                        Id = address.Id,
+                        StreetName = address.StreetName,
+                        PostalCode = address.PostalCode,
+                        City = address.City,
+                    });
+            }
+            return addresses;
+
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
+
     }
 
     public AddressEntity UpdateAddress(AddressEntity addressEntity)

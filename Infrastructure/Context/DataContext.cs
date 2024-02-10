@@ -20,5 +20,7 @@ public partial class DataContext : DbContext
     public virtual DbSet<AddressEntity> Addresses { get; set; }
     public  virtual DbSet<ContactEntity> Contacts { get; set; }
     public virtual DbSet<RoleEntity> Roles { get; set; }
-    public  virtual DbSet<AuthEntity> Auths { get; set; }    
+    public  virtual DbSet<AuthEntity> Auths { get; set; }
+
+    
 }

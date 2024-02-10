@@ -55,7 +55,7 @@ public partial class DetailsCustomerViewModel : ObservableObject
 
     private void NavigateToUpdate()
     {
-        _customerService.CurrentCustomer = CustomerDto;
+        _customerService.CurrentCustomer = customerDto;
 
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<UpdateCustomerViewModel>();

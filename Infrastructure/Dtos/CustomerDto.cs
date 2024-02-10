@@ -1,5 +1,7 @@
 ﻿
 
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
 namespace Infrastructure.Dtos;
 
 public class CustomerDto
@@ -12,7 +14,7 @@ public class CustomerDto
     public string Email { get; set; }=null!;
     public string StreetName { get; set; } = null!;
     public string City { get; set; }=null !;
-    public int PostalCode { get; set; }
+    public string PostalCode { get; set; } = null!;
 
     public string RoleName { get; set; } = null!;
 
