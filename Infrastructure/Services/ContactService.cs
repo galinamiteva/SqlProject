@@ -73,9 +73,9 @@ public class ContactService(ContactRepository contactRepository)
     }
 
 
-    public void DeleteContact(Guid contactId)
+    public void DeleteContact(Guid ContactId)
     {
-        _contactRepository.Delete(x=>x.CustomerId == contactId);
+        _contactRepository.Delete(x=>x.CustomerId == ContactId);
     }
 
 

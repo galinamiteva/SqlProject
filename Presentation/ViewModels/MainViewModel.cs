@@ -8,10 +8,14 @@ namespace Presentation.ViewModels;
 
 public partial class MainViewModel:ObservableObject
 {
-    [ObservableProperty]
-    private ObservableObject? _currentViewModel;
 
     private readonly IServiceProvider _serviceProvider;
+
+
+    [ObservableProperty]
+    private ObservableObject _currentViewModel= null!;
+
+    
 
    public MainViewModel(IServiceProvider serviceProvider)
     {

@@ -7,6 +7,7 @@ using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Windows.Themes;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Windows;
 
 
@@ -18,17 +19,21 @@ public partial class CustomerListViewModel: ObservableObject
     private readonly IServiceProvider _serviceProvider;
     private readonly CustomerService _customerService;
 
+
+    [ObservableProperty]
+    private ObservableCollection<CustomerDto> _customerList = new ObservableCollection<CustomerDto>();
+
+
+
     public CustomerListViewModel(IServiceProvider serviceProvider, CustomerService customerService)
     {
         _serviceProvider = serviceProvider;
         _customerService = customerService;
 
-        Customers = new ObservableCollection<CustomerDto>(_customerService.GetAllCustomers());
+        CustomerList = new ObservableCollection<CustomerDto>(_customerService.GetAllCustomers());
     }
 
-    [ObservableProperty]
-    private ObservableCollection<CustomerDto> _customers = new ObservableCollection<CustomerDto>();
-
+   
     [RelayCommand]
 
     private void NavigateToAddCustomer()
@@ -38,19 +43,10 @@ public partial class CustomerListViewModel: ObservableObject
 
     }
 
-    [RelayCommand]
-    private void NavigateToDetail(CustomerDto customer)
-    {
-        _customerService.CurrentCustomer = customer;
-
-        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-       mainViewModel.CurrentViewModel=_serviceProvider.GetRequiredService<DetailsCustomerViewModel>();  
-
-    }
 
     [RelayCommand]
 
-    private void NavigateToDelete(CustomerDto customerDto)
+    private void DeleteCustomer(CustomerDto customerDto)
     {
         MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this customer?", "Please confirm", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
@@ -62,6 +58,44 @@ public partial class CustomerListViewModel: ObservableObject
             mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<CustomerListViewModel>();
         }
 
+    }
+
+
+    [RelayCommand]
+    private void NavigateToCustomerDetailView(CustomerDto customer)
+    {
+        _customerService.SelectedCustomer = customer;
+
+        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+       mainViewModel.CurrentViewModel=_serviceProvider.GetRequiredService<DetailsCustomerViewModel>();  
+
+    }
+
+    [RelayCommand]
+    private void NavigateToUpdateContactView(CustomerDto customer)
+    {
+        _customerService.SelectedCustomer= customer;
+
+        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<UpdateCustomerViewModel>();
+
+    }
+
+    [RelayCommand]
+    private void DCToDetailView(CustomerDto customer)
+    {
+        _customerService.SelectedCustomer = customer;
+
+        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<DetailsCustomerViewModel>();
+    }
+
+
+    [RelayCommand]
+    private void NavigateToAddress()
+    {
+        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<AddressListViewModel>();
     }
 
 }

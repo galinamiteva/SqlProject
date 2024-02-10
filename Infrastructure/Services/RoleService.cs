@@ -104,10 +104,10 @@ public class RoleService(RoleRepository roleRepository)
 
 
 
-    public bool DeleteRole(int id) 
+    public void DeleteRole(RoleDto role) 
     { 
-        _roleRepository.Delete(x=> x.Id == id); 
-        return true;
+        _roleRepository.Delete(x=> x.RoleName == role.RoleName); 
+        
     }
 
 }

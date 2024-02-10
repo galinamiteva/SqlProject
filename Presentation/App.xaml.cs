@@ -43,13 +43,22 @@ namespace Presentation
 
                 services.AddTransient<CustomerListViewModel>();
                 services.AddTransient<CustomerListView>();                                                
+               
                 services.AddTransient<AddCustomerViewModel>();
                 services.AddTransient<AddCustomerView>();
+                
                 services.AddTransient<DetailsCustomerViewModel>();
                 services.AddTransient<DetailCustomerView>();
+               
                 services.AddTransient<UpdateCustomerViewModel>();
                 services.AddTransient<UpdateCustomerView>();
 
+                services.AddTransient<RoleListViewModel>();
+                services.AddTransient<RoleListView>();
+
+                services.AddTransient<AddressListViewModel>();
+                services.AddTransient<AddressListView>();
+   
 
 
             }).Build();

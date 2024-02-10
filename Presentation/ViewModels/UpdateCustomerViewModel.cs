@@ -5,6 +5,8 @@ using CommunityToolkit.Mvvm.Input;
 using Infrastructure.Dtos;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.ObjectModel;
+using System.Data;
 
 namespace Presentation.ViewModels;
 
@@ -13,45 +15,61 @@ public partial class UpdateCustomerViewModel : ObservableObject
     private readonly IServiceProvider _serviceProvider;
     private readonly CustomerService _customerService;
 
-    public UpdateCustomerViewModel(IServiceProvider serviceProvider, CustomerService customerService)
-    {
-        _serviceProvider = serviceProvider;
-        _customerService = customerService;
-
-        Customer = _customerService.CurrentCustomer;
-    }
+    private readonly RoleService _roleService;
 
 
     [ObservableProperty]
-    private CustomerDto customer = new CustomerDto();
+    private ObservableCollection<RoleDto> _roleList = new ObservableCollection<RoleDto>();
+
+    public RoleDto SelectedRole { get; set; } = null!;
+
+
+
+
+
+    public UpdateCustomerViewModel(IServiceProvider serviceProvider, CustomerService customerService, RoleService roleService)
+    {
+        _serviceProvider = serviceProvider;
+        _customerService = customerService;
+        _roleService = roleService;
+
+
+        RoleList = new ObservableCollection<RoleDto>(_roleService.GetAllRoles()); 
+        Customer = _customerService.SelectedCustomer;
+    }
+    
+    [ObservableProperty]
+    private CustomerDto customer = new();
+
+
+
 
     [RelayCommand]
 
     private async Task UpdateCustomer()
     {
+        if(SelectedRole != null)
+        {
+            Customer.RoleName = SelectedRole.RoleName;
+
+        }
+
         await _customerService.UpdateCustomerAsync(Customer);
 
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-        mainViewModel.CurrentViewModel=_serviceProvider.GetRequiredService<DetailsCustomerViewModel>();
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<CustomerListViewModel>();
+
     }
+
 
 
     [RelayCommand]
 
-    private void NavigateToList()
+    private void Cancel()
     {
-        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-        mainViewModel.CurrentViewModel=_serviceProvider.GetRequiredService<CustomerListViewModel>();
-
-    }
-
-    [RelayCommand]
-    private async Task UpdateCustomersEmail()
-    {
-        await _customerService.UpdateCustomersEmailAsync(Customer);
-
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<DetailsCustomerViewModel>();
+
     }
 
 
