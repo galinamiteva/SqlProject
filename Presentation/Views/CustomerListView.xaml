@@ -4,12 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.Views"
-             xmlns:dto="clr-namespace:Infrastructure.Dtos;assembly=Infrastructure"
+            xmlns:models="clr-namespace:Infrastructure.Dtos;assembly=Infrastructure"
             xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
             d:DataContext="{d:DesignInstance Type=viewmodels:CustomerListViewModel}"
              
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="600">
+             d:DesignHeight="600" d:DesignWidth="800">
     
     <Grid Margin="15">
         <Grid.RowDefinitions>
@@ -19,7 +19,7 @@
 
         <ListView Grid.Row="0" ItemsSource="{Binding CustomerList}" HorizontalContentAlignment="Stretch">
             <ListView.ItemTemplate>
-                <DataTemplate DataType="{x:Type dto:CustomerDto}">
+                <DataTemplate DataType="{x:Type models:CustomerDto}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>

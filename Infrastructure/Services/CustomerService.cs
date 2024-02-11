@@ -52,8 +52,9 @@ public class CustomerService
                 if (customerResult != null)
                 {
                     var contactEntity = _contactService.CreateContact(customerDto.FirstName, customerDto.LastName, customerDto.PhoneNumber!, customerResult.Id);
+                    var authEntity = _authService.CreateAuth(customerDto.LoginName, customerDto.Pass, customerDto.Id);
                 }
-
+                return customerResult!;
             }
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }

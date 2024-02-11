@@ -45,7 +45,7 @@ public partial class UpdateCustomerViewModel: ObservableObject
 
     [RelayCommand]
 
-    private async Task UpdateCustomer()
+    private async Task Update()
     {
         if (SelectedRole != null)
         {

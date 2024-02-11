@@ -35,7 +35,7 @@ public partial class AddCustomerViewModel: ObservableObject
     }
 
 
-
+    //Varför kan inte förändra min gitignore file?????
 
 
 
@@ -43,7 +43,7 @@ public partial class AddCustomerViewModel: ObservableObject
 
     [RelayCommand]
 
-    private async Task AddCustomer(CustomerDto customerDto)
+    private async Task AddCustomer(CustomerDto customer)
     {
         if (SelectedRole != null)
         {
@@ -51,7 +51,7 @@ public partial class AddCustomerViewModel: ObservableObject
 
         }
 
-        await _customerService.CreateCustomerAsync(customerDto);
+        await _customerService.CreateCustomerAsync(customer);
 
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<CustomerListViewModel>();

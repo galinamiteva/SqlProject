@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.Views"
              
-              xmlns:dto="clr-namespace:Infrastructure.Dtos;assembly=Infrastructure"
+              xmlns:views="clr-namespace:Presentation.Views"
              xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:UpdateCustomerViewModel}"
              
@@ -25,37 +25,37 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="0" Grid.Column="0">
-            <Label Content="First name:" Foreground="Gray"/>
+            <Label Content="First name:" Foreground="Black"/>
             <TextBox Text="{Binding Customer.FirstName}" Padding="2,5" Margin="5,5,20,0" />
-            <Label Content="Last name:" Foreground="Gray"/>
+            <Label Content="Last name:" Foreground="Black"/>
             <TextBox Text="{Binding Customer.LastName}" Padding="2,5" Margin="5,5,20,0"  />
         </StackPanel>
 
         <StackPanel Grid.Row="0" Grid.Column="1">
-            <Label Content="Email:" Foreground="Gray" Margin="20,0,0,0" />
+            <Label Content="Email:" Foreground="Black" Margin="20,0,0,0" />
             <TextBox Text="{Binding Customer.Email}" Padding="2,5" Margin="25,5,20,0"  />
-            <Label Content="Phone number:" Foreground="Gray" Margin="20,0,0,0"  />
+            <Label Content="Phone number:" Foreground="Black" Margin="20,0,0,0"  />
             <TextBox Text="{Binding Customer.PhoneNumber}" Padding="2,5" Margin="25,5,20,0" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="0">
-            <Label Content="Street:" Foreground="Gray"  />
+            <Label Content="Street:" Foreground="Black"  />
             <TextBox Text="{Binding Customer.StreetName}" Padding="2,5" Margin="5,5,20,0"/>
-            <Label Content="Postal code:" Foreground="Gray" />
+            <Label Content="Postal Code:" Foreground="Black" />
             <TextBox Text="{Binding Customer.PostalCode}" Padding="2,5" Margin="5,5,20,0" />
-            <Label Content="City:" Foreground="Gray" />
+            <Label Content="City:" Foreground="Black" />
             <TextBox Text="{Binding Customer.City}" Padding="2,5" Margin="5,5,20,0" />
-            <Button Content="Save" Command="{Binding UpdateCommand}" HorizontalAlignment="Right" Height="30" Width="110" Padding="5" Margin="20,70"  />
+            <Button Content="Save" Command="{Binding UpdateCommand}" HorizontalAlignment="Center" Height="30" Width="110" Padding="5" Margin="20,40"  />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
-            <Label Content="LoginName:" Foreground="Gray" Margin="20,0,0,0" />
+            <Label Content="LoginName:" Foreground="Black" Margin="20,0,0,0" />
             <TextBox Text="{Binding Customer.LoginName}" Padding="2,5" Margin="25,5,20,0" />
-            <Label Content="Password:" Foreground="Gray" Margin="20,0,0,0" />
+            <Label Content="Pass:" Foreground="Black" Margin="20,0,0,0" />
             <TextBox Text="{Binding Customer.Pass}" Padding="2,5" Margin="25,5,20,0" />
-            <Label Content="Role:" Foreground="Gray" Margin="20,0,0,0" />
+            <Label Content="Role:" Foreground="Black" Margin="20,0,0,0" />
             <ComboBox ItemsSource="{Binding RoleList}" SelectedItem="{Binding SelectedRole, Mode=TwoWay}" DisplayMemberPath="RoleName" Padding="2,5" Margin="25,5,20,0" />
-            <Button Content="Cancel" Command="{Binding CancelCommand}" HorizontalAlignment="Left" Height="30" Width="110" Padding="5" Margin="20,70" />
+            <Button Content="Cancel" Command="{Binding CancelCommand}" HorizontalAlignment="Center" Height="30" Width="110" Padding="5" Margin="20,40" />
         </StackPanel>
 
     </Grid>

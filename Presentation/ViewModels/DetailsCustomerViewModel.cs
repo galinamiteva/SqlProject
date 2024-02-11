@@ -19,12 +19,12 @@ public partial class DetailsCustomerViewModel: ObservableObject
         _serviceProvider = serviceProvider;
         _customerService = customerService;
 
-        CustomerDto = _customerService.SelectedCustomer;
+        Customer = _customerService.SelectedCustomer;
 
     }
 
     [ObservableProperty]
-    private CustomerDto customerDto = new();
+    private CustomerDto customer = new();
 
 
 
@@ -37,13 +37,13 @@ public partial class DetailsCustomerViewModel: ObservableObject
 
     [RelayCommand]
 
-    private void DeleteCustomer(CustomerDto customerDto)
+    private void DeleteCustomer(CustomerDto customer)
     {
         MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this customer?", "Please confirm", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
         if (result == MessageBoxResult.Yes)
         {
-            _customerService.DeleteCustomer(customerDto);
+            _customerService.DeleteCustomer(customer);
 
             var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
             mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<CustomerListViewModel>();
@@ -57,7 +57,7 @@ public partial class DetailsCustomerViewModel: ObservableObject
 
     private void NavigateToUpdateCustomerView()
     {
-        _customerService.SelectedCustomer = customerDto;
+        _customerService.SelectedCustomer = customer;
 
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<UpdateCustomerViewModel>();

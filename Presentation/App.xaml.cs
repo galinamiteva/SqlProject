@@ -23,7 +23,7 @@ public partial class App : Application
     {
         builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
         {
-            services.AddDbContext<DataContext>(x=>x.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\ProjectCSharp\SqlProject\Infrastructure\Data\local_db.mdf;Integrated Security=True;Connect Timeout=30"), ServiceLifetime.Transient);
+            services.AddDbContext<DataContext>(x=>x.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\ProjectCSharp\SqlProject\Infrastructure\Data\customers_db.mdf;Integrated Security=True;Connect Timeout=30"), ServiceLifetime.Transient);
             services.AddScoped<RoleRepository>();
             services.AddScoped<AddressRepository>();
             services.AddScoped<CustomerRepository>();

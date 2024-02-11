@@ -13,8 +13,8 @@
              
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
-    
-    
+
+
     <UserControl.Resources>
         <CollectionViewSource x:Key="AddressCollectionViewSource" Source="{Binding AddressList}"/>
     </UserControl.Resources>
@@ -24,7 +24,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-
+        
         <ListView Grid.Row="0" ItemsSource="{Binding Source={StaticResource AddressCollectionViewSource}}" HorizontalContentAlignment="Stretch" Foreground="Black">
             <ListView.View>
                 <GridView>
@@ -44,7 +44,7 @@
 
             <Button Grid.Column="0" Content="Cusstomers" Command="{Binding NavigateToCustomersCommand}" Height="50" Width="150" Margin="5" Background="WhiteSmoke"/>
             <Button Grid.Column="1" Content="Roles" Command="{Binding NavigateToRolesCommand}" Height="50" Width="150" Margin="5" Background="WhiteSmoke"/>
-            <Button Grid.Column="2" Content="Addresses" Command="{Binding NavigateToAddressesCommand}" Height="50" Width="150" Margin="5" Background="NavajoWhite"/>
+            <Button Grid.Column="2" Content="Addresses" Command="{Binding NavigateToAddressesCommand}" Height="50" Width="150" Margin="5" Background="DimGray"/>
         </Grid>
     </Grid>
 </UserControl>

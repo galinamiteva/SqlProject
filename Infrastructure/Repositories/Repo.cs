@@ -148,7 +148,7 @@ public abstract class Repo<TEntity> where TEntity : class
 
     //Exists method
 
-    public bool Exists (Expression<Func<TEntity, bool>> expression)
+    public virtual bool Exists (Expression<Func<TEntity, bool>> expression)
     {
         try
         {

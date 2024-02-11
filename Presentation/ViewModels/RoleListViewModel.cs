@@ -16,7 +16,7 @@ public partial class RoleListViewModel: ObservableObject
     private readonly IServiceProvider _serviceProvider;
 
     [ObservableProperty]
-    private RoleDto roleDto = new();
+    private RoleDto role = new();
 
     [ObservableProperty]
     private ObservableCollection<RoleDto> roleList = [];
@@ -33,10 +33,10 @@ public partial class RoleListViewModel: ObservableObject
     [RelayCommand]
     private async Task AddRole()
     {
-        await _roleService.CreateRoleAsync(RoleDto.RoleName!);
+        await _roleService.CreateRoleAsync(Role.RoleName!);
 
         RoleList = new ObservableCollection<RoleDto>(_roleService.GetAllRoles());
-        RoleDto = new();
+        Role = new();
 
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<RoleListViewModel>();
