@@ -6,12 +6,10 @@ using Infrastructure.Dtos;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
-using System.Data;
-
 
 namespace Presentation.ViewModels;
 
-public partial class AddCustomerViewModel : ObservableObject
+public partial class AddCustomerViewModel: ObservableObject
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly CustomerService _customerService;
@@ -26,7 +24,7 @@ public partial class AddCustomerViewModel : ObservableObject
     private CustomerDto customer = new();
 
 
-    public AddCustomerViewModel(IServiceProvider serviceProvider, RoleService roleService,CustomerService customerService)
+    public AddCustomerViewModel(IServiceProvider serviceProvider, RoleService roleService, CustomerService customerService)
     {
         _serviceProvider = serviceProvider;
         _customerService = customerService;
@@ -42,10 +40,10 @@ public partial class AddCustomerViewModel : ObservableObject
 
 
 
-   
+
     [RelayCommand]
 
-    private async Task AddCustomer(CustomerDto customerDto) 
+    private async Task AddCustomer(CustomerDto customerDto)
     {
         if (SelectedRole != null)
         {
@@ -56,13 +54,13 @@ public partial class AddCustomerViewModel : ObservableObject
         await _customerService.CreateCustomerAsync(customerDto);
 
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-        mainViewModel.CurrentViewModel=_serviceProvider.GetRequiredService<CustomerListViewModel>();
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<CustomerListViewModel>();
     }
 
     [RelayCommand]
     private void NavigateToList()
     {
-        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel> ();
+        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<CustomerListViewModel>();
     }
 

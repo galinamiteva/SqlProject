@@ -9,9 +9,8 @@ using System.Collections.ObjectModel;
 
 namespace Presentation.ViewModels;
 
-public partial class AddressListViewModel : ObservableObject
+public partial class AddressListViewModel: ObservableObject
 {
-
     private readonly AddressService _addressService;
     private readonly IServiceProvider _serviceProvider;
 
@@ -31,12 +30,16 @@ public partial class AddressListViewModel : ObservableObject
 
     [RelayCommand]
     private void NavigateToCustomers()
-        
+
     {
-        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();   
-        mainViewModel.CurrentViewModel=_serviceProvider.GetRequiredService<RoleListViewModel>();
+        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<RoleListViewModel>();
     }
 
-
-
+    [RelayCommand]
+    private void NavigateToRoles()
+    {
+        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<RoleListViewModel>();
+    }
 }

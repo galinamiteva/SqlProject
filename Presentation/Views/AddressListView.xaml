@@ -4,9 +4,47 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.Views"
+             
+              xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
+            xmlns:views="clr-namespace:Presentation.Views"
+             xmlns:models="clr-namespace:Infrastructure.Dtos;assembly=Infrastructure"
+            d:DataContext="{d:DesignInstance Type=viewmodels:AddressListViewModel}"
+             
+             
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             d:DesignHeight="600" d:DesignWidth="800">
+    
+    
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="AddressCollectionViewSource" Source="{Binding AddressList}"/>
+    </UserControl.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <ListView Grid.Row="0" ItemsSource="{Binding Source={StaticResource AddressCollectionViewSource}}" HorizontalContentAlignment="Stretch" Foreground="Black">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Street Name" DisplayMemberBinding="{Binding StreetName}" Width="240"/>
+                    <GridViewColumn Header="Postal Code" DisplayMemberBinding="{Binding PostalCode}" Width="240"/>
+                    <GridViewColumn Header="City" DisplayMemberBinding="{Binding City}" Width="240"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Grid Grid.Row="1" Margin="20" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Content="Cusstomers" Command="{Binding NavigateToCustomersCommand}" Height="50" Width="150" Margin="5" Background="WhiteSmoke"/>
+            <Button Grid.Column="1" Content="Roles" Command="{Binding NavigateToRolesCommand}" Height="50" Width="150" Margin="5" Background="WhiteSmoke"/>
+            <Button Grid.Column="2" Content="Addresses" Command="{Binding NavigateToAddressesCommand}" Height="50" Width="150" Margin="5" Background="NavajoWhite"/>
+        </Grid>
     </Grid>
 </UserControl>

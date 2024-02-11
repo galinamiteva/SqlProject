@@ -6,11 +6,10 @@ using Infrastructure.Dtos;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
-using System.Data;
 
 namespace Presentation.ViewModels;
 
-public partial class UpdateCustomerViewModel : ObservableObject
+public partial class UpdateCustomerViewModel: ObservableObject
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly CustomerService _customerService;
@@ -34,10 +33,10 @@ public partial class UpdateCustomerViewModel : ObservableObject
         _roleService = roleService;
 
 
-        RoleList = new ObservableCollection<RoleDto>(_roleService.GetAllRoles()); 
+        RoleList = new ObservableCollection<RoleDto>(_roleService.GetAllRoles());
         Customer = _customerService.SelectedCustomer;
     }
-    
+
     [ObservableProperty]
     private CustomerDto customer = new();
 
@@ -48,7 +47,7 @@ public partial class UpdateCustomerViewModel : ObservableObject
 
     private async Task UpdateCustomer()
     {
-        if(SelectedRole != null)
+        if (SelectedRole != null)
         {
             Customer.RoleName = SelectedRole.RoleName;
 
@@ -71,6 +70,4 @@ public partial class UpdateCustomerViewModel : ObservableObject
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<DetailsCustomerViewModel>();
 
     }
-
-
 }

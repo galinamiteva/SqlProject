@@ -4,54 +4,62 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.Views"
-             xmlns:dto="clr-namespace:Infrastructure.Dtos;assembly=Infrastructure"
-             xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
-             d:DataContext="{d:DesignInstance Type=viewmodels:AddCustomerViewModel}"
-            
-              mc:Ignorable="d"
-             d:DesignHeight="700" d:DesignWidth="600">
              
-    <Grid Margin="20">
+             xmlns:dto="clr-namespace:Infrastructure.Dtos;assembly=Infrastructure"
+              xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
+              d:DataContext="{d:DesignInstance Type=viewmodels:AddCustomerViewModel}"
+            
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="1000" d:DesignWidth="800">
+    
+    <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="*" MaxHeight="160" />
             <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Margin="0,0,0,77">
-            <Label HorizontalContentAlignment=" Center" Margin="20" Content="Add New Customer"/>
-            
-            <Label Content="First Name: "/>
-            <TextBox Text="{Binding Customer.FirstName}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-            <Label Content="Last Name: "/>
-            <TextBox Text="{Binding Customer.LastName}"/>
-
-            <Label Content="Email: "/>
-            <TextBox Text="{Binding Customer.Email}"/>
-
-            <Label Content="Role: "/>
-            <TextBox Text="{Binding Customer.RoleName}"/>
-
-            <Label Content="Phone Number: "/>
-            <TextBox Text="{Binding Customer.PhoneNumber}"/>
-
-            <Label Content="Street Name: "/>
-            <TextBox Text="{Binding Customer.StreetName}"/>
-            
-            <Label Content="City: "/>
-            <TextBox Text="{Binding Customer.City}"/>
-
-            <Label Content="Postal Code: "/>
-            <TextBox Text="{Binding Customer.PostalCode}"/>
-
-            <Label Content="Login Name: "/>
-            <TextBox Text="{Binding Customer.LoginName}"/>
-
-            <Label Content="Password: "/>
-            <TextBox Text="{Binding Customer.Pass}"/>
-
-            <Button Height="20" Width="200" Margin="0,20,0,10" Content="Save Customer" Command="{Binding AddCuToListCommand}" />
-            <Button Height="20" Width="200" Content="Full Contact List" Command="{Binding NavigateToListCommand}" />
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <Label Content="First name:" Foreground="Gray"/>
+            <TextBox Text="{Binding Customer.FirstName}" Padding="2,5" Margin="5,5,20,0" />
+            <Label Content="Last name:" Foreground="Gray"/>
+            <TextBox Text="{Binding Customer.LastName}" Padding="2,5" Margin="5,5,20,0"  />
         </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <Label Content="Email:" Foreground="Gray" Margin="20,0,0,0" />
+            <TextBox Text="{Binding Customer.Email}" Padding="2,5" Margin="25,5,20,0"  />
+            <Label Content="Phone number:" Foreground="Gray" Margin="20,0,0,0"  />
+            <TextBox Text="{Binding Customer.PhoneNumber}" Padding="2,5" Margin="25,5,20,0" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <Label Content="Street:" Foreground="Gray"  />
+            <TextBox Text="{Binding Customer.StreetName}" Padding="2,5" Margin="5,5,20,0"/>
+            <Label Content="Postal Code:" Foreground="Gray" />
+            <TextBox Text="{Binding Customer.PostalCode}" Padding="2,5" Margin="5,5,20,0" />
+            <Label Content="City:" Foreground="Gray" />
+            <TextBox Text="{Binding Customer.City}" Padding="2,5" Margin="5,5,20,0" />
+            <Button Content="Add Customer" Command="{Binding AddCustomerCommand}" HorizontalAlignment="Right" Height="30" Width="110" Padding="5" Margin="20,70"  />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Label Content="LoginName:" Foreground="Gray" Margin="20,0,0,0" />
+            <TextBox Text="{Binding Customer.LoginName}" Padding="2,5" Margin="25,5,20,0" />
+            <Label Content="Password:" Foreground="Gray" Margin="20,0,0,0" />
+            <TextBox Text="{Binding Customer.Pass}" Padding="2,5" Margin="25,5,20,0" />
+            <Label Content="Role:" Foreground="Gray" Margin="20,0,0,0" />
+            <ComboBox ItemsSource="{Binding RoleList}" SelectedItem="{Binding SelectedRole, Mode=TwoWay}" DisplayMemberPath="RoleName" Padding="2,5" Margin="25,5,20,0" />
+            <Button Content="Cancel" Command="{Binding NavigateToListCommand}" HorizontalAlignment="Left" Height="30" Width="110" Padding="5" Margin="20,70" />
+        </StackPanel>
+
+
+
     </Grid>
 </UserControl>

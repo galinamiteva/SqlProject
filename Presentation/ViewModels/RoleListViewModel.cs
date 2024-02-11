@@ -6,12 +6,11 @@ using Infrastructure.Dtos;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
-using System.Data;
 using System.Windows;
 
 namespace Presentation.ViewModels;
 
-public partial class RoleListViewModel:ObservableObject
+public partial class RoleListViewModel: ObservableObject
 {
     private readonly RoleService _roleService;
     private readonly IServiceProvider _serviceProvider;
@@ -22,12 +21,12 @@ public partial class RoleListViewModel:ObservableObject
     [ObservableProperty]
     private ObservableCollection<RoleDto> roleList = [];
 
-    public RoleListViewModel (RoleService roleService, IServiceProvider serviceProvider)
+    public RoleListViewModel(RoleService roleService, IServiceProvider serviceProvider)
     {
         _roleService = roleService;
         _serviceProvider = serviceProvider;
 
-        RoleList = new ObservableCollection<RoleDto> (_roleService.GetAllRoles());
+        RoleList = new ObservableCollection<RoleDto>(_roleService.GetAllRoles());
     }
 
 
@@ -36,11 +35,11 @@ public partial class RoleListViewModel:ObservableObject
     {
         await _roleService.CreateRoleAsync(RoleDto.RoleName!);
 
-        RoleList= new ObservableCollection<RoleDto> (_roleService.GetAllRoles());
-        RoleDto= new ();
+        RoleList = new ObservableCollection<RoleDto>(_roleService.GetAllRoles());
+        RoleDto = new();
 
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-        mainViewModel.CurrentViewModel= _serviceProvider.GetRequiredService<RoleListViewModel>();   
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<RoleListViewModel>();
     }
 
 

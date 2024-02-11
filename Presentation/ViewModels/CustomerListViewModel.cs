@@ -5,17 +5,13 @@ using CommunityToolkit.Mvvm.Input;
 using Infrastructure.Dtos;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Windows.Themes;
 using System.Collections.ObjectModel;
-using System.Data;
 using System.Windows;
-
 
 namespace Presentation.ViewModels;
 
 public partial class CustomerListViewModel: ObservableObject
 {
-
     private readonly IServiceProvider _serviceProvider;
     private readonly CustomerService _customerService;
 
@@ -33,10 +29,10 @@ public partial class CustomerListViewModel: ObservableObject
         CustomerList = new ObservableCollection<CustomerDto>(_customerService.GetAllCustomers());
     }
 
-   
+
     [RelayCommand]
 
-    private void NavigateToAddCustomer()
+    private void NavigateToAddView()
     {
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<AddCustomerViewModel>();
@@ -67,14 +63,14 @@ public partial class CustomerListViewModel: ObservableObject
         _customerService.SelectedCustomer = customer;
 
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-       mainViewModel.CurrentViewModel=_serviceProvider.GetRequiredService<DetailsCustomerViewModel>();  
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<DetailsCustomerViewModel>();
 
     }
 
     [RelayCommand]
     private void NavigateToUpdateContactView(CustomerDto customer)
     {
-        _customerService.SelectedCustomer= customer;
+        _customerService.SelectedCustomer = customer;
 
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<UpdateCustomerViewModel>();
@@ -89,7 +85,13 @@ public partial class CustomerListViewModel: ObservableObject
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<DetailsCustomerViewModel>();
     }
+    [RelayCommand]
 
+    private void NavigateToRoles()
+    {
+        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<RoleListViewModel>();
+    }
 
     [RelayCommand]
     private void NavigateToAddress()
@@ -97,5 +99,4 @@ public partial class CustomerListViewModel: ObservableObject
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<AddressListViewModel>();
     }
-
 }

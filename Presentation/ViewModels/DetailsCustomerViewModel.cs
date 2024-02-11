@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace Presentation.ViewModels;
 
-public partial class DetailsCustomerViewModel : ObservableObject
+public partial class DetailsCustomerViewModel: ObservableObject
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly CustomerService _customerService;
@@ -29,7 +29,7 @@ public partial class DetailsCustomerViewModel : ObservableObject
 
 
     [RelayCommand]
-    private void NavigateToList()
+    private void NavigateToListView()
     {
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<CustomerListViewModel>();
@@ -40,7 +40,7 @@ public partial class DetailsCustomerViewModel : ObservableObject
     private void DeleteCustomer(CustomerDto customerDto)
     {
         MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this customer?", "Please confirm", MessageBoxButton.YesNo, MessageBoxImage.Question);
-    
+
         if (result == MessageBoxResult.Yes)
         {
             _customerService.DeleteCustomer(customerDto);
@@ -48,8 +48,8 @@ public partial class DetailsCustomerViewModel : ObservableObject
             var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
             mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<CustomerListViewModel>();
         }
-    
-    
+
+
     }
 
 
@@ -62,6 +62,5 @@ public partial class DetailsCustomerViewModel : ObservableObject
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<UpdateCustomerViewModel>();
     }
-
 
 }
