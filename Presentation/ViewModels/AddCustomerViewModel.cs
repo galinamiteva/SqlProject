@@ -35,7 +35,7 @@ public partial class AddCustomerViewModel: ObservableObject
     }
 
 
-    //Varför kan inte förändra min gitignore file?????
+    //Varför kan inte förändra min gitignore filen?
 
 
 
