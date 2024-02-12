@@ -34,7 +34,7 @@
                                 <Run Text="{Binding FirstName}"/>
                                 <Run Text="{Binding LastName}" />
                                 <LineBreak />
-                                <Run Text="{Binding RoleName}" Foreground="DarkGray" />
+                                <Run Text="{Binding RoleName}" Foreground="WhiteSmoke" />
                             </TextBlock>
                         </StackPanel>
 
