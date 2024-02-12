@@ -18,6 +18,7 @@ public class AddressService(AddressRepository addressRepository)
         {
             var addressEntity = await _addressRepository.GetOneAsync(x => x.StreetName == streetName && x.City == city && x.PostalCode == postalCode);
             addressEntity ??= await _addressRepository.CreateAsync(new AddressEntity { StreetName = streetName, City = city, PostalCode = postalCode });
+            
             return new AddressDto {Id=addressEntity.Id, StreetName=addressEntity.StreetName, PostalCode=addressEntity.PostalCode, City=addressEntity.City };
         }
         catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
@@ -33,7 +34,8 @@ public class AddressService(AddressRepository addressRepository)
         
             var addressEntity = _addressRepository.GetOne(x => x.StreetName == streetName && x.City == city && x.PostalCode == postalCode);
             addressEntity ??= _addressRepository.Create(new AddressEntity { StreetName = streetName, City = city, PostalCode = postalCode });
-            return new AddressEntity { Id = addressEntity.Id, StreetName = addressEntity.StreetName, PostalCode = addressEntity.PostalCode, City = addressEntity.City };
+            
+        return new AddressEntity { Id = addressEntity.Id, StreetName = addressEntity.StreetName, PostalCode = addressEntity.PostalCode, City = addressEntity.City };
        
     }
                  //GetOne Address Async

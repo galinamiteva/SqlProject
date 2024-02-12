@@ -5,6 +5,7 @@ using Infrastructure.Entitites;
 using Infrastructure.Repositories;
 using System.Data;
 using System.Diagnostics;
+using System.Linq.Expressions;
 
 namespace Infrastructure.Services;
 
@@ -39,6 +40,18 @@ public class RoleService(RoleRepository roleRepository)
     {
         var roleEntity = _roleRepository.GetOne(x=> x.RoleName == role.RoleName);
         return roleEntity;
+    }
+
+    public async Task<RoleDto> GetRoleAsync(Expression<Func<RoleEntity, bool>> predicate)
+    {
+        try
+        {
+            var result = await _roleRepository.GetOneAsync(predicate);
+            if (result != null)
+                return new RoleDto { Id = result.Id, RoleName = result.RoleName };
+        }
+        catch { }
+        return null!;
     }
 
     public RoleEntity GetOneRoleByRoleId(int id)

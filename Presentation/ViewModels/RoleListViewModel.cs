@@ -6,6 +6,7 @@ using Infrastructure.Dtos;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Windows;
 
 namespace Presentation.ViewModels;
@@ -14,6 +15,7 @@ public partial class RoleListViewModel: ObservableObject
 {
     private readonly RoleService _roleService;
     private readonly IServiceProvider _serviceProvider;
+    private readonly CustomerService _customerService;
 
     [ObservableProperty]
     private RoleDto role = new();
@@ -21,18 +23,32 @@ public partial class RoleListViewModel: ObservableObject
     [ObservableProperty]
     private ObservableCollection<RoleDto> roleList = [];
 
-    public RoleListViewModel(RoleService roleService, IServiceProvider serviceProvider)
+
+    [ObservableProperty]
+    private ObservableCollection<CustomerDto>  _customerList= new ObservableCollection<CustomerDto>();
+
+    public RoleListViewModel(RoleService roleService, CustomerService customerService, IServiceProvider serviceProvider)
     {
         _roleService = roleService;
         _serviceProvider = serviceProvider;
+        _customerService = customerService;
 
         RoleList = new ObservableCollection<RoleDto>(_roleService.GetAllRoles());
+        CustomerList = new ObservableCollection<CustomerDto>(_customerService.GetAllCustomers());
     }
 
 
     [RelayCommand]
     private async Task AddRole()
     {
+
+        if (string.IsNullOrWhiteSpace(Role.RoleName))
+        {
+            MessageBox.Show("Rolename can not be empty, please enter a role", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+
+
         await _roleService.CreateRoleAsync(Role.RoleName!);
 
         RoleList = new ObservableCollection<RoleDto>(_roleService.GetAllRoles());
@@ -46,14 +62,20 @@ public partial class RoleListViewModel: ObservableObject
     [RelayCommand]
     private void DeleteRole(RoleDto role)
     {
-        MessageBoxResult result = MessageBox.Show("Are you sure you want to remove this user?", "Confirm delete", MessageBoxButton.YesNo, MessageBoxImage.Question);
+        if (CustomerList.Any(customer => customer.RoleName == role.RoleName))
+        {
+            MessageBoxResult result = MessageBox.Show($"There are registered users with role: {role.RoleName}. If you proceed with deletion, the user(s) will also be removed.", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Error);
 
-        if (result == MessageBoxResult.Yes)
+            if (result == MessageBoxResult.Yes)
+            {
+                _roleService.DeleteRole(role);
+                RoleList = new ObservableCollection<RoleDto>(_roleService.GetAllRoles());
+            }
+        }
+        else
         {
             _roleService.DeleteRole(role);
-
-            var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-            mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<RoleListViewModel>();
+            RoleList = new ObservableCollection<RoleDto>(_roleService.GetAllRoles());
         }
     }
 

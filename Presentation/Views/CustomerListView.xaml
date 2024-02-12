@@ -11,7 +11,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     
-    <Grid Margin="15">
+    <Grid Margin="20">
+
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
@@ -30,10 +31,10 @@
 
                         <StackPanel Grid.Column="0" Margin="0,0,0,5">
                             <TextBlock>
-                        <Run Text="{Binding FirstName}" />
-                        <Run Text="{Binding LastName}" />
-                        <LineBreak />
-                        <Run Text="{Binding RoleName}" Foreground="LavenderBlush" />
+                                <Run Text="{Binding FirstName}"/>
+                                <Run Text="{Binding LastName}" />
+                                <LineBreak />
+                                <Run Text="{Binding RoleName}" Foreground="DarkGray" />
                             </TextBlock>
                         </StackPanel>
 
@@ -48,16 +49,20 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Grid Grid.Row="1" Margin="20" HorizontalAlignment="Center">
+        <Grid Grid.Row="1" Margin="20" HorizontalAlignment="Left">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Content="Add new Customer" Command="{Binding NavigateToAddViewCommand}" Height="50" Width="150" Margin="5" Background="LavenderBlush"/>
-            <Button Grid.Column="1" Content="Roles" Command="{Binding NavigateToRolesCommand}" Height="50" Width="150" Margin="5" Background="WhiteSmoke"/>
-            <Button Grid.Column="2"  Content="Addresses" Command="{Binding NavigateToAddressesCommand}" Height="50" Width="150" Margin="5" Background="WhiteSmoke"/>
+            <Button Grid.Column="0" Content="Customers" Command="{Binding NavigateToCustomersViewCommand}" Height="50" Width="150" Margin="2" Background="WhiteSmoke" Foreground="Black"/>
+            <Button Grid.Column="1" Content="Roles" Command="{Binding NavigateToRolesCommand}" Height="50" Width="150" Margin="2" Background="LavenderBlush" Foreground="Black"/>
+            <Button Grid.Column="2"  Content="Addresses" Command="{Binding NavigateToAddressesCommand}" Height="50" Width="150" Margin="2" Background="WhiteSmoke" Foreground="Black"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="20" HorizontalAlignment="Right">
+            <Button Grid.Column="0" Content="New User" Command="{Binding NavigateToAddViewCommand}" Padding="40 10" Background="Black" Foreground="LavenderBlush" />
         </Grid>
     </Grid>
 </UserControl>

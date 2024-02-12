@@ -6,6 +6,8 @@ using Infrastructure.Dtos;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
+using System.Net;
+using System.Windows;
 
 namespace Presentation.ViewModels;
 
@@ -18,6 +20,8 @@ public partial class AddressListViewModel: ObservableObject
     private ObservableCollection<AddressDto> addressList = [];
 
 
+    [ObservableProperty]
+    private AddressDto address = new();
 
     public AddressListViewModel(AddressService addressService, IServiceProvider serviceProvider)
     {
@@ -29,11 +33,31 @@ public partial class AddressListViewModel: ObservableObject
 
 
     [RelayCommand]
+    private async Task AddAddress()
+    {
+        if (string.IsNullOrWhiteSpace(Address.StreetName) || string.IsNullOrWhiteSpace(Address.PostalCode) || string.IsNullOrWhiteSpace(Address.City))
+        {
+            MessageBox.Show("Address fields can not be empty, please enter a address", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+
+
+        await _addressService.CreateAddressAsync(Address.StreetName, Address.PostalCode, Address.City);
+
+        AddressList = new ObservableCollection<AddressDto>(_addressService.GetAllAddresses());
+        Address = new();
+
+        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<AddressListViewModel>();
+    }
+
+
+    [RelayCommand]
     private void NavigateToCustomers()
 
     {
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<RoleListViewModel>();
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<CustomerListViewModel>();
     }
 
     [RelayCommand]

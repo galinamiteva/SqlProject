@@ -24,17 +24,21 @@ public partial class App : Application
         builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
         {
             services.AddDbContext<DataContext>(x=>x.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\ProjectCSharp\SqlProject\Infrastructure\Data\customers_db.mdf;Integrated Security=True;Connect Timeout=30"), ServiceLifetime.Transient);
+            
+            //Repositories
             services.AddScoped<RoleRepository>();
             services.AddScoped<AddressRepository>();
             services.AddScoped<CustomerRepository>();
             services.AddScoped<AuthRepository>();
             services.AddScoped<ContactRepository>();
-
+            
+            //Services
             services.AddScoped<RoleService>();
             services.AddScoped<AddressService>();
             services.AddScoped<CustomerService>();
             services.AddScoped<AuthService>();
             services.AddScoped<ContactService>();
+
 
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<MainWindow>();

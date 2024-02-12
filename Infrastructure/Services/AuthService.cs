@@ -28,9 +28,9 @@ public class AuthService
             };
             var result = _authRepository.Create(authEntity);
             if (result != null)
-            {
+            
                 return result;
-            }
+            
 
         }
         catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
@@ -56,12 +56,46 @@ public class AuthService
         return authentications;
     }
 
-   
-
+    public IEnumerable<AuthEntity> GetRoles()
+    {
+        var authentications = new List<AuthEntity>();
+        return authentications;
+    }
+    public AuthEntity UpdateRole(AuthEntity authEntity)
+    {
+        var updatedAuth = _authRepository.Update(x => x.CustomerId == authEntity.CustomerId, authEntity);
+        return updatedAuth;
+    }
     public AuthEntity UpdateAuth(AuthEntity authEntity)
     {
         var updateAuthEntity = _authRepository.Update(x => x.CustomerId==authEntity.CustomerId, authEntity);
         return updateAuthEntity;
+    }
+
+
+    public async Task<bool> UpdateAuthAsync(Guid customerId, string loginName, string pass)
+    {
+        try
+        {
+            var newAuthentication = await _authRepository.UpdateOneAsync(new AuthEntity
+            {
+                CustomerId = customerId,
+                LoginName = loginName,
+                Pass = pass
+
+            });
+            return newAuthentication != null;
+        }
+        catch
+        {
+
+        }
+        return false!;
+    }
+
+    public void DeleteRole(Guid id)
+    {
+        _authRepository.Delete(x => x.CustomerId == id);
     }
 
     public void DeleteAuth( Guid customerId)

@@ -13,7 +13,7 @@ public class ContactService(ContactRepository contactRepository)
 
 
                    //Create
-    public async Task<ContactDto> CreateContactAsync(string firstName, string lastName, Guid customerId, string? phoneNumber)
+    public async Task<ContactDto> CreateContactAsync(string firstName, string lastName, Guid customerId, string phoneNumber)
     {
         try
         {
@@ -70,6 +70,23 @@ public class ContactService(ContactRepository contactRepository)
         var updatedEntity = _contactRepository.Update(x => x.CustomerId == contactEntity.CustomerId, contactEntity);
         return updatedEntity;
     
+    }
+
+    public async Task<bool> UpdateContactAsync(Guid customerId, string firstName, string lastName, string? phoneNumber)
+    {
+        try
+        {
+            var updatedContact = await _contactRepository.UpdateOneAsync(new ContactEntity
+            {
+                CustomerId = customerId,
+                FirstName = firstName,
+                LastName = lastName,
+                PhoneNumber = phoneNumber
+            });
+            return updatedContact != null;
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
+        return false!;
     }
 
 

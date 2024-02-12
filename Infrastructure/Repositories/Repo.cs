@@ -128,6 +128,18 @@ public abstract class Repo<TEntity> where TEntity : class
         return null!;
     }
 
+    public virtual async Task<TEntity> UpdateOneAsync(TEntity entity)
+    {
+        try
+        {
+            _context.Set<TEntity>().Update(entity);
+            await _context.SaveChangesAsync();
+            return entity;
+        }
+        catch { }
+        return null!;
+    }
+
     //Delete
     public virtual bool Delete(Expression<Func<TEntity, bool>> expression)
     {

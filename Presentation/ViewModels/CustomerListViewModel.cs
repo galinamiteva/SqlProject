@@ -77,7 +77,15 @@ public partial class CustomerListViewModel: ObservableObject
 
     }
 
-    
+    [RelayCommand]
+    private void DCToDetailView(CustomerDto customer)
+    {
+        _customerService.SelectedCustomer = customer;
+
+        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<DetailsCustomerViewModel>();
+    }
+
     [RelayCommand]
 
     private void NavigateToRoles()

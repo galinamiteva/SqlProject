@@ -29,30 +29,31 @@ public class CustomerService
 
     public CustomerDto SelectedCustomer { get; set; } = null!;
 
-            //Create Async
-    public async Task <CustomerEntity> CreateCustomerAsync (CustomerDto customerDto)
+
+
+    //Create Async
+  
+    public async Task<CustomerEntity> CreateCustomerAsync(CustomerDto customer)
     {
-        try
+        try 
         {
-            if(!_customerRepository.Exists(x=>x.Email == customerDto.Email))
+            if (!_customerRepository.Exists(x => x.Email == customer.Email))
             {
-                var roleEntity = await _roleService.CreateRoleAsync (customerDto.RoleName);
-                var addressEntity = _addressService.CreateAddress(customerDto.StreetName, customerDto.PostalCode, customerDto.City);
+                var roleEntity = await _roleService.CreateRoleAsync(customer.RoleName);
+                var addressEntity = _addressService.CreateAddress(customer.StreetName, customer.PostalCode, customer.City);
 
+                var customerEntity = new CustomerEntity
+                {
+                    Email = customer.Email,
+                    RoleId = roleEntity.Id,
+                    AddressId = addressEntity.Id
+                };
 
-                    var customerEntity = new CustomerEntity
-                    {
-                        Email = customerDto.Email,
-                        RoleId = roleEntity.Id,
-                        AddressId = addressEntity.Id
-
-                    };
-
-                    var customerResult = await _customerRepository.CreateAsync (customerEntity);
+                var customerResult = await _customerRepository.CreateAsync(customerEntity);
                 if (customerResult != null)
                 {
-                    var contactEntity = _contactService.CreateContact(customerDto.FirstName, customerDto.LastName, customerDto.PhoneNumber!, customerResult.Id);
-                    var authEntity = _authService.CreateAuth(customerDto.LoginName, customerDto.Pass, customerDto.Id);
+                    var contactEntity = _contactService.CreateContact(customer.FirstName, customer.LastName, customer.PhoneNumber!, customerResult.Id);
+                    var authEntity = _authService.CreateAuth(customer.LoginName, customer.Pass, customerResult.Id);
                 }
                 return customerResult!;
             }
@@ -61,20 +62,21 @@ public class CustomerService
         return null!;
     }
 
-                                      //Create
 
-    public CustomerEntity CreateCustomer (CustomerDto customerDto)
+    //Create
+
+    public CustomerEntity CreateCustomer (CustomerDto customer)
     {
         try
         {
-            if (!_customerRepository.Exists(x => x.Email == customerDto.Email))
+            if (!_customerRepository.Exists(x => x.Email == customer.Email))
             {
-                var roleEntity = _roleService.CreateRole(customerDto.RoleName);
-                var addressEntity = _addressService.CreateAddress(customerDto.StreetName, customerDto.PostalCode, customerDto.City);
+                var roleEntity = _roleService.CreateRole(customer.RoleName);
+                var addressEntity = _addressService.CreateAddress(customer.StreetName, customer.PostalCode, customer.City);
 
                 var customerEntity = new CustomerEntity
                 {
-                    Email = customerDto.Email,
+                    Email = customer.Email,
                     RoleId = roleEntity.Id,
                     AddressId = addressEntity.Id
                 };
@@ -82,8 +84,8 @@ public class CustomerService
                 var customerResult = _customerRepository.Create(customerEntity);
                 if (customerResult != null)
                 {
-                    var contactEntity = _contactService.CreateContact(customerDto.FirstName, customerDto.LastName, customerDto.PhoneNumber!, customerResult.Id);
-                    var authEntity = _authService.CreateAuth(customerDto.LoginName, customerDto.Pass, customerResult.Id);
+                    var contactEntity = _contactService.CreateContact(customer.FirstName, customer.LastName, customer.PhoneNumber!, customerResult.Id);
+                    var authEntity = _authService.CreateAuth(customer.LoginName, customer.Pass, customerResult.Id);
                 }
                 return customerResult!;
             }
@@ -182,20 +184,20 @@ public class CustomerService
                 entity.Email= updatedCustomer.Email;
                 entity.RoleId = roleEntity.Id;
 
-                var result =await _customerRepository.UpdateAsync(x=>x.Id == updatedCustomer.Id, entity);
-                if (result != null) 
-                
-                    return new CustomerEntity
-                    {
-                        Id = updatedCustomer.Id,
-                        Email = updatedCustomer.Email,
-                        AddressId = addressEntity.Id,
-                        RoleId = roleEntity.Id,
-                    };
+                var customerEntity = new CustomerEntity
+                {
+                    Id = updatedCustomer.Id,
+                    Email = updatedCustomer.Email,
+                    AddressId = addressEntity.Id,
+                    RoleId = roleEntity.Id,
+                };
 
-                var contactEntity = _contactService.CreateContact(updatedCustomer.FirstName, updatedCustomer.LastName, updatedCustomer.PhoneNumber!, updatedCustomer.Id);
-                var authEntity = _authService.CreateAuth(updatedCustomer.LoginName, updatedCustomer.Pass, updatedCustomer.Id);
-                
+                var result = await _customerRepository.UpdateAsync(x => x.Id == updatedCustomer.Id, entity);
+
+                var contactEntity = await _contactService.UpdateContactAsync(updatedCustomer.Id, updatedCustomer.FirstName, updatedCustomer.LastName, updatedCustomer.PhoneNumber);
+                var authEntity = await _authService.UpdateAuthAsync(updatedCustomer.Id, updatedCustomer.LoginName, updatedCustomer.Pass);
+
+                return result;
             }
 
         }

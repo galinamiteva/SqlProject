@@ -45,7 +45,7 @@
             <TextBox Text="{Binding Customer.PostalCode}" Padding="2,5" Margin="5,5,20,0" />
             <Label Content="City:" Foreground="Black" />
             <TextBox Text="{Binding Customer.City}" Padding="2,5" Margin="5,5,20,0" />
-            <Button Content="Save" Command="{Binding UpdateCommand}" HorizontalAlignment="Center" Height="30" Width="110" Padding="5" Margin="20,40"  />
+            <Button Content="Save" Command="{Binding UpdateCommand}" HorizontalAlignment="Center" Height="30" Width="110" Padding="5" Margin="20,40" Background="LavenderBlush" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
@@ -54,8 +54,8 @@
             <Label Content="Pass:" Foreground="Black" Margin="20,0,0,0" />
             <TextBox Text="{Binding Customer.Pass}" Padding="2,5" Margin="25,5,20,0" />
             <Label Content="Role:" Foreground="Black" Margin="20,0,0,0" />
-            <ComboBox ItemsSource="{Binding RoleList}" SelectedItem="{Binding SelectedRole, Mode=TwoWay}" DisplayMemberPath="RoleName" Padding="2,5" Margin="25,5,20,0" />
-            <Button Content="Cancel" Command="{Binding CancelCommand}" HorizontalAlignment="Center" Height="30" Width="110" Padding="5" Margin="20,40" />
+            <ComboBox ItemsSource="{Binding RoleList}" SelectedItem="{Binding SelectedRole, Mode=TwoWay}" DisplayMemberPath="RoleName" Padding="2,5" Margin="25,5,20,0" Background="LavenderBlush" />
+            <Button Content="Cancel" Command="{Binding CancelCommand}" HorizontalAlignment="Center" Height="30" Width="110" Padding="5" Margin="20,40" Background="WhiteSmoke" />
         </StackPanel>
 
     </Grid>
