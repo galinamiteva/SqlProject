@@ -38,8 +38,8 @@ public class CustomerService
     {
         try
         {
-            if (!_customerRepository.Exists(x => x.Email == customer.Email))
-            {
+             if (!_customerRepository.Exists(x => x.Email == customer.Email))
+                {
                 var roleEntity =  await _roleService.CreateRoleAsync(customer.RoleName);
                 var addressEntity = _addressService.CreateAddress(customer.StreetName, customer.PostalCode, customer.City);
 
@@ -84,8 +84,8 @@ public class CustomerService
 
                 if (customerResult != null)
                 {
-                    var contactInformationEntity = _contactService.CreateContact(customer.FirstName, customer.LastName, customer.PhoneNumber!, customerResult.Id);
-                    var authenticationEntity = _authService.CreateAuth(customer.LoginName, customer.Pass, customerResult.Id);
+                    var contactEntity = _contactService.CreateContact(customer.FirstName, customer.LastName, customer.PhoneNumber!, customerResult.Id);
+                    var authEntity = _authService.CreateAuth(customer.LoginName, customer.Pass, customerResult.Id);
                 }
                 return customerResult!;
             }
@@ -94,7 +94,39 @@ public class CustomerService
         return null!;
     }
 
+    //public async Task<CustomerEntity> UpdateCustomerAsync(CustomerDto updatedCustomer)
+    //{
+    //    try
+    //    {
+    //        var entity = await _customerRepository.GetOneAsync(x => x.Id == updatedCustomer.Id);
+    //        if (entity != null)
+    //        {
+    //            var roleEntity = _roleService.CreateRole(updatedCustomer.RoleName);
+    //            var addressEntity = _addressService.CreateAddress(updatedCustomer.StreetName, updatedCustomer.PostalCode, updatedCustomer.City);
 
+    //            entity.Email = updatedCustomer.Email;
+    //            entity.AddressId = addressEntity.Id;
+    //            entity.RoleId = roleEntity.Id;
+
+    //            var customerEntity = new CustomerEntity
+    //            {
+    //                Id = updatedCustomer.Id,
+    //                Email = updatedCustomer.Email,
+    //                AddressId = addressEntity.Id,
+    //                RoleId = roleEntity.Id,
+    //            };
+
+    //            var result = await _customerRepository.UpdateAsync(x => x.Id == updatedCustomer.Id, entity);
+
+    //            var contactInformationEntity = await _contactService.UpdateContactAsync(updatedCustomer.Id, updatedCustomer.FirstName, updatedCustomer.LastName, updatedCustomer.PhoneNumber);
+    //            var authenticationEntity = await _authService.UpdateAuthAsync(updatedCustomer.Id, updatedCustomer.LoginName, updatedCustomer.Pass);
+
+    //            return result;
+    //        }
+    //    }
+    //    catch { }
+    //    return null!;
+    //}
 
     //Get All Customers
     public IEnumerable<CustomerDto> GetAllCustomers()

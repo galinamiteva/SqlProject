@@ -50,6 +50,7 @@ public partial class CustomerListViewModel: ObservableObject
         {
             _customerService.DeleteCustomer(customer);
 
+            CustomerList = new ObservableCollection<CustomerDto>(_customerService.GetAllCustomers());
             var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
             mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<CustomerListViewModel>();
         }

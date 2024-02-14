@@ -17,6 +17,10 @@ public partial class AddCustomerViewModel: ObservableObject
 
     [ObservableProperty]
     private ObservableCollection<RoleDto> _roleList = new ObservableCollection<RoleDto>();
+
+    [ObservableProperty]
+    private ObservableCollection<CustomerDto> _customerList = new ObservableCollection<CustomerDto>();
+
     public RoleDto SelectedRole { get; set; } = null!;
 
 
@@ -31,7 +35,7 @@ public partial class AddCustomerViewModel: ObservableObject
         _roleService = roleService;
 
         RoleList = new ObservableCollection<RoleDto>(_roleService.GetAllRoles());
-
+        CustomerList = new ObservableCollection<CustomerDto>(_customerService.GetAllCustomers());
     }
 
 
@@ -52,6 +56,7 @@ public partial class AddCustomerViewModel: ObservableObject
         }
 
         await _customerService.CreateCustomerAsync(customer);
+        CustomerList = new ObservableCollection<CustomerDto>(_customerService.GetAllCustomers());
 
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<CustomerListViewModel>();
