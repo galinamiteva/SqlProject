@@ -4,6 +4,7 @@ using Infrastructure.Entitites;
 using Infrastructure.Repositories;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using System.Net;
 
 namespace Infrastructure.Services;
 
@@ -27,53 +28,19 @@ public class AddressService(AddressRepository addressRepository)
 
 
 
-                //Create Address 
-    public AddressEntity CreateAddress(string streetName, string city, string postalCode)
-    {
-        
-        
-            var addressEntity = _addressRepository.GetOne(x => x.StreetName == streetName && x.City == city && x.PostalCode == postalCode);
-            addressEntity ??= _addressRepository.Create(new AddressEntity { StreetName = streetName, City = city, PostalCode = postalCode });
-            
-        return new AddressEntity { Id = addressEntity.Id, StreetName = addressEntity.StreetName, PostalCode = addressEntity.PostalCode, City = addressEntity.City };
-       
-    }
-                 //GetOne Address Async
+    // Create Address
+   
 
-    public async Task<AddressDto> GetAddressAsync(Expression<Func<AddressEntity, bool>> predicate)
-    {
-        try
-        {
-            var result = await _addressRepository.GetOneAsync(predicate);
-            if (result != null)
-            {
-                return new AddressDto { Id = result.Id, StreetName = result.StreetName, City = result.City, PostalCode = result.PostalCode };
-            }
-        }
-        catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
-        return null!;
-    }
 
-            //GetOne Address
-
-    public AddressEntity GetAddress(string streetName, string postalCode, string city)
+    public AddressEntity CreateAddress(string streetName, string postalCode, string city)
     {
-        var addressEntity = _addressRepository.GetOne(x=>x.StreetName == streetName&&x.PostalCode==postalCode&&x.City==city);
-        return addressEntity;
+        var result = _addressRepository.GetOne(x => x.StreetName == streetName && x.PostalCode == postalCode && x.City == city);
+        result ??= _addressRepository.Create(new AddressEntity { StreetName = streetName, PostalCode = postalCode, City = city });
 
-    }
-                
-    
-                    //GetOne Address by ID
-    public AddressEntity GetAddressById(int id)
-    {
-        var addressEntity = _addressRepository.GetOne(x => x.Id == id);
-        return addressEntity;
+        return new AddressEntity { Id = result.Id, StreetName = result.StreetName, PostalCode = result.PostalCode, City = result.City };
     }
 
 
-            //GetAll
-    
     public IEnumerable<AddressDto> GetAllAddresses()
     {
         var addresses = new List<AddressDto>();
@@ -97,15 +64,42 @@ public class AddressService(AddressRepository addressRepository)
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return null!;
-
     }
+
+
+
+
+
+    public async Task<AddressDto> GetAddressAsync(Expression<Func<AddressEntity, bool>> predicate)
+    {
+        try
+        {
+            var result = await _addressRepository.GetOneAsync(predicate);
+            if (result != null)
+                return new AddressDto { Id = result.Id, StreetName = result.StreetName, PostalCode = result.PostalCode, City = result.City };
+        }
+        catch { }
+        return null!;
+    }
+
+    public AddressEntity GetAddress(string streetName, string postalCode, string city)
+    {
+        var addressEntity = _addressRepository.GetOne(x => x.StreetName == streetName && x.PostalCode == postalCode && x.City == city);
+        return addressEntity;
+    }
+
+    public AddressEntity GetAddressById(int Id)
+    {
+        var addressEntity = _addressRepository.GetOne(x => x.Id == Id);
+        return addressEntity;
+    }
+
 
     public AddressEntity UpdateAddress(AddressEntity addressEntity)
     {
         var updatedAddressEntity = _addressRepository.Update(x => x.Id == addressEntity.Id, addressEntity);
         return updatedAddressEntity;
     }
-
 
     public void DeleteAddress(int id)
     {

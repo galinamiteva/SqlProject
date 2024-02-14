@@ -4,16 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.Views"
-             
+            
+              
+             xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
              xmlns:models="clr-namespace:Infrastructure.Dtos;assembly=Infrastructure"
-              xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
-              d:DataContext="{d:DesignInstance Type=viewmodels:AddCustomerViewModel}"
+             d:DataContext="{d:DesignInstance Type=viewmodels:AddCustomerViewModel}"
             
              
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
-    
-    <Grid Margin="20">
+
+    <Grid Margin="20" Background="#E9F5DB">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" MaxHeight="160" />
             <RowDefinition Height="*"/>
@@ -46,7 +47,7 @@
             <TextBox Text="{Binding Customer.PostalCode}" Padding="2,5" Margin="5,5,20,0" />
             <Label Content="City:" Foreground="Black" />
             <TextBox Text="{Binding Customer.City}" Padding="2,5" Margin="5,5,20,0" />
-            <Button Content="Add Customer" Command="{Binding AddCustomerCommand}" HorizontalAlignment="Center" Height="30" Width="110" Padding="5" Margin="20,70" Background="LavenderBlush" />
+            <Button Content="Add Customer" Command="{Binding AddCustomerCommand}" HorizontalAlignment="Center" Height="30" Width="110" Padding="5" Margin="20,70" Background="#718355" Foreground="White" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
@@ -56,7 +57,7 @@
             <TextBox Text="{Binding Customer.Pass}" Padding="2,5" Margin="25,5,20,0" />
             <Label Content="Role:" Foreground="Black" Margin="20,0,0,0" />
             <ComboBox ItemsSource="{Binding RoleList}" SelectedItem="{Binding SelectedRole, Mode=TwoWay}" DisplayMemberPath="RoleName" Padding="2,5" Margin="25,5,20,0" />
-            <Button Content="Cancel" Command="{Binding NavigateToListCommand}" HorizontalAlignment="Center" Height="30" Width="110" Padding="5" Margin="20,70" Background="WhiteSmoke"/>
+            <Button Content="Cancel" Command="{Binding NavigateToListCommand}" HorizontalAlignment="Center" Height="30" Width="110" Padding="5" Margin="20,70" Background="#1B4332" Foreground="White"/>
         </StackPanel>
 
 

@@ -19,14 +19,14 @@
         <CollectionViewSource x:Key="AddressCollectionViewSource" Source="{Binding AddressList}"/>
     </UserControl.Resources>
 
-    <Grid Margin="20">
+    <Grid Margin="20" Background="#E9F5DB">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="0,0,0,20">
+        <Grid Grid.Row="0" Background="#E9F5DB" Margin="0,0,0,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -49,31 +49,33 @@
                 <TextBox Grid.Column="2" Text="{Binding Address.City}" Padding="10" Margin="0 0 10 0" />
             </StackPanel>
 
-            <Button Grid.Column="3" HorizontalAlignment="Right" Content="Add new address" Command="{Binding AddAddressCommand}" Height="50" Width="150" Margin="0,15,0, 0"  Background="LavenderBlush" />
+            <Button Grid.Column="3" HorizontalAlignment="Right" Content="Add new address" Command="{Binding AddAddressCommand}" Height="50" Width="150" Margin="0,15,0, 0"  Background="#2D6A4F" Foreground="White" />
         </Grid>
 
 
-        <ListView Grid.Row="1" ItemsSource="{Binding Source={StaticResource AddressCollectionViewSource}}" HorizontalContentAlignment="Stretch" Foreground="Black">
+        <ListView Background="#E9F5DB" Grid.Row="1" ItemsSource="{Binding Source={StaticResource AddressCollectionViewSource}}" HorizontalContentAlignment="Stretch" Foreground="Black">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Street Name" DisplayMemberBinding="{Binding StreetName}" Width="240"/>
+                    <GridViewColumn Header="Street Name" DisplayMemberBinding="{Binding StreetName}" Width="240"></GridViewColumn>
                     <GridViewColumn Header="Postal Code" DisplayMemberBinding="{Binding PostalCode}" Width="240"/>
                     <GridViewColumn Header="City" DisplayMemberBinding="{Binding City}" Width="240"/>
+                    
                 </GridView>
+                
             </ListView.View>
         </ListView>
 
         <Grid Grid.Row="2" Margin="20" HorizontalAlignment="Left">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="auto" ></ColumnDefinition>
+                <ColumnDefinition Width="auto" ></ColumnDefinition>
+                <ColumnDefinition Width="auto" ></ColumnDefinition>
             </Grid.ColumnDefinitions>
+           
 
-            <Button Grid.Column="0" Content="Customers" Command="{Binding NavigateToCustomersCommand}" Height="50" Width="150" Margin="2" Background="WhiteSmoke" Foreground="Black"/>
-            <Button Grid.Column="1" Content="Roles" Command="{Binding NavigateToRolesCommand}" Height="50" Width="150" Margin="2" Background="WhiteSmoke" Foreground="Black"/>
-            <Button Grid.Column="2" Content="Addresses" Command="{Binding NavigateToAddressesCommand}" Height="50" Width="150" Margin="2" Background="LavenderBlush" Foreground="Black"/>
+            <Button Grid.Column="0" Content="Customers" Command="{Binding NavigateToCustomersCommand}" Height="50" Width="150" Margin="10,10,100,10" Background="#718355" Foreground="White" />
+            <Button Grid.Column="1" Content="Roles" Command="{Binding NavigateToRolesCommand}"  Height="50" Width="150" Margin="2" Background="#1B4332" Foreground="White"/>
+            
         </Grid>
     </Grid>
 </UserControl>

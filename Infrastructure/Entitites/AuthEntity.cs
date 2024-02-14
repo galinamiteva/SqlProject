@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace Infrastructure.Entitites;
@@ -7,6 +8,7 @@ namespace Infrastructure.Entitites;
 public class AuthEntity
 {
     [Key]
+    [ForeignKey(nameof(CustomerEntity))]
     public Guid CustomerId { get; set; } 
 
 

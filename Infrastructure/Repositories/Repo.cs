@@ -88,7 +88,7 @@ public abstract class Repo<TEntity> where TEntity : class
     }
 
     //Update
-    public virtual  TEntity Update(Expression<Func<TEntity, bool>> expression, TEntity entity)
+    public   TEntity Update(Expression<Func<TEntity, bool>> expression, TEntity entity)
     {
         try
         {

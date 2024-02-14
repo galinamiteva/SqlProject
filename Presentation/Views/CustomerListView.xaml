@@ -4,21 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.Views"
-            xmlns:models="clr-namespace:Infrastructure.Dtos;assembly=Infrastructure"
-            xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
-            d:DataContext="{d:DesignInstance Type=viewmodels:CustomerListViewModel}"
+             
+              xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
+               xmlns:models="clr-namespace:Infrastructure.Dtos;assembly=Infrastructure"
+             d:DataContext="{d:DesignInstance Type=viewmodels:CustomerListViewModel}"
              
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
-    
-    <Grid Margin="20">
+
+    <Grid Margin="20" Background="#E9F5DB">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <ListView Grid.Row="0" ItemsSource="{Binding CustomerList}" HorizontalContentAlignment="Stretch">
+        <ListView Background="#E9F5DB" Grid.Row="0" ItemsSource="{Binding CustomerList}" HorizontalContentAlignment="Stretch">
             <ListView.ItemTemplate>
                 <DataTemplate DataType="{x:Type models:CustomerDto}">
                     <Grid>
@@ -39,9 +40,9 @@
                         </StackPanel>
 
 
-                        <Button Grid.Row="0" Grid.Column="1" Content="View" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToCustomerDetailViewCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  Width="45" Height="25" Margin="5" Background="WhiteSmoke" />
-                        <Button Grid.Row="0" Grid.Column="2" Content="Update" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToUpdateContactViewCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  Width="45" Height="25" Margin="5" Background="WhiteSmoke" />
-                        <Button Grid.Row="0" Grid.Column="3" Content="Delete" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.DeleteCustomerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Width="45" Height="25" Margin="5" Background="WhiteSmoke"/>
+                        <Button Grid.Row="0" Grid.Column="1" Content="View" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToCustomerDetailViewCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  Width="45" Height="25" Margin="5" Background="#87986A" Foreground="White" />
+                        <Button Grid.Row="0" Grid.Column="2" Content="Update" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToUpdateContactViewCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  Width="45" Height="25" Margin="5" Background="#718355" Foreground="White" />
+                        <Button Grid.Row="0" Grid.Column="3" Content="Delete" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.DeleteCustomerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Width="45" Height="25" Margin="5" Background="#1B4332" Foreground="White"/>
 
 
                     </Grid>
@@ -56,13 +57,17 @@
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Content="Customers" Command="{Binding NavigateToCustomersViewCommand}" Height="50" Width="150" Margin="2" Background="WhiteSmoke" Foreground="Black"/>
-            <Button Grid.Column="1" Content="Roles" Command="{Binding NavigateToRolesCommand}" Height="50" Width="150" Margin="2" Background="LavenderBlush" Foreground="Black"/>
-            <Button Grid.Column="2"  Content="Addresses" Command="{Binding NavigateToAddressesCommand}" Height="50" Width="150" Margin="2" Background="WhiteSmoke" Foreground="Black"/>
+
+            <Button Grid.Column="1" Content="Roles" Command="{Binding NavigateToRolesCommand}" Height="50" Width="150" Margin="2" Background="#718355" Foreground="White"/>
+            <Button Grid.Column="2"  Content="Addresses" Command="{Binding NavigateToAddressesCommand}" Height="50" Width="150" Margin="2" Background="#1B4332" Foreground="White"/>
+        
+        
         </Grid>
 
         <Grid Grid.Row="1" Margin="20" HorizontalAlignment="Right">
-            <Button Grid.Column="0" Content="New User" Command="{Binding NavigateToAddViewCommand}" Padding="40 10" Background="Black" Foreground="LavenderBlush" />
+            <Button Grid.Column="0" Content="New User" Command="{Binding NavigateToAddViewCommand}" Padding="40 10" Background="#081C15"  Foreground="White" />
+        
+        
         </Grid>
     </Grid>
 </UserControl>

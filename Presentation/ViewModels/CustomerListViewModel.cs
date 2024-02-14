@@ -77,6 +77,7 @@ public partial class CustomerListViewModel: ObservableObject
 
     }
 
+
     [RelayCommand]
     private void DCToDetailView(CustomerDto customer)
     {
@@ -85,6 +86,7 @@ public partial class CustomerListViewModel: ObservableObject
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<DetailsCustomerViewModel>();
     }
+
 
     [RelayCommand]
 
@@ -95,7 +97,7 @@ public partial class CustomerListViewModel: ObservableObject
     }
 
     [RelayCommand]
-    private void NavigateToAddress()
+    private void NavigateToAddresses()
     {
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<AddressListViewModel>();

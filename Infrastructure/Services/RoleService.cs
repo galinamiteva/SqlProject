@@ -15,32 +15,29 @@ public class RoleService(RoleRepository roleRepository)
 
 
 
-            //Create
+    //Create
     public async Task<RoleDto> CreateRoleAsync(string roleName)
     {
         try
         {
-            var result = await _roleRepository.GetOneAsync(x=>x.RoleName == roleName);
+            var result = await _roleRepository.GetOneAsync(x => x.RoleName == roleName);
             result ??= await _roleRepository.CreateAsync(new RoleEntity { RoleName = roleName });
 
-            return new RoleDto { Id= result.Id, RoleName = roleName };
+            return new RoleDto { Id = result.Id, RoleName = result.RoleName };
         }
-        catch (Exception ex) { Debug.WriteLine("ERROR:: " + ex.Message); }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return null!;
     }
-    public RoleEntity CreateRole (string roleName)
-    {
-        var roleEntity = _roleRepository.GetOne(x=> x.RoleName == roleName);
-        roleEntity ??= _roleRepository.Create(new RoleEntity () { Id = roleEntity!.Id, RoleName = roleEntity.RoleName }); 
-        return new RoleEntity { Id = roleEntity.Id, RoleName = roleEntity.RoleName };
-    }
 
 
-    public RoleEntity GetOneRoleByRoleName (RoleDto role)
+    public RoleEntity CreateRole(string roleName)
     {
-        var roleEntity = _roleRepository.GetOne(x=> x.RoleName == role.RoleName);
-        return roleEntity;
+        var result = _roleRepository.GetOne(x => x.RoleName == roleName);
+        result ??= _roleRepository.Create(new RoleEntity() { Id = result!.Id, RoleName = result.RoleName });
+
+        return new RoleEntity { Id = result.Id, RoleName = result.RoleName };
     }
+
 
     public async Task<RoleDto> GetRoleAsync(Expression<Func<RoleEntity, bool>> predicate)
     {
@@ -54,11 +51,18 @@ public class RoleService(RoleRepository roleRepository)
         return null!;
     }
 
-    public RoleEntity GetOneRoleByRoleId(int id)
+    public RoleEntity GetRoleByName(RoleDto role)
     {
-        var roleEntity = _roleRepository.GetOne(x => x.Id == id);
+        var roleEntity = _roleRepository.GetOne(x => x.RoleName == role.RoleName);
         return roleEntity;
     }
+
+    public RoleEntity GetRoleById(int Id)
+    {
+        var roleEntity = _roleRepository.GetOne(x => x.Id == Id);
+        return roleEntity;
+    }
+
 
     public IEnumerable<RoleDto> GetAllRoles()
     {
@@ -77,11 +81,13 @@ public class RoleService(RoleRepository roleRepository)
                     });
             }
             return roles;
+
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return null!;
-    }
 
+
+    }
 
     public IEnumerable<RoleEntity> GetRoles()
     {
@@ -90,37 +96,34 @@ public class RoleService(RoleRepository roleRepository)
     }
 
 
-    public async Task <RoleDto> UpdateRoleAsync(RoleDto updatedRole)
+    public async Task<RoleDto> UpdateRoleAsync(RoleDto updatedRole)
     {
         try
         {
-            var entity = await _roleRepository.GetOneAsync(x=>x.Id == updatedRole.Id);
+            var entity = await _roleRepository.GetOneAsync(x => x.Id == updatedRole.Id);
             if (entity != null)
             {
-                entity.RoleName = updatedRole.RoleName;
+                entity.RoleName = updatedRole.RoleName!;
+
                 var result = await _roleRepository.UpdateAsync(x => x.Id == updatedRole.Id, entity);
                 if (result != null)
                     return new RoleDto { Id = updatedRole.Id, RoleName = updatedRole.RoleName };
             }
         }
-        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        catch { }
         return null!;
     }
 
 
     public RoleEntity UpdateRole(RoleEntity roleEntity)
     {
-        var updatedRole = _roleRepository.Update(x => x.Id == roleEntity.Id, roleEntity);
-        return updatedRole;
+        var updatedRoleEntity = _roleRepository.Update(x => x.Id == roleEntity.Id, roleEntity);
+        return updatedRoleEntity;
     }
 
-
-
-
-    public void DeleteRole(RoleDto role) 
-    { 
-        _roleRepository.Delete(x=> x.RoleName == role.RoleName); 
-        
+    public void DeleteRole(RoleDto role)
+    {
+        _roleRepository.Delete(x => x.RoleName == role.RoleName);
     }
 
 }

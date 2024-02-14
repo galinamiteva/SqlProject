@@ -31,15 +31,16 @@ public class CustomerService
 
 
 
-    //Create Async
+    //Create 
+    
   
-    public async Task<CustomerEntity> CreateCustomerAsync(CustomerDto customer)
+  public async Task<CustomerEntity> CreateCustomerAsync(CustomerDto customer)
     {
-        try 
+        try
         {
             if (!_customerRepository.Exists(x => x.Email == customer.Email))
             {
-                var roleEntity = await _roleService.CreateRoleAsync(customer.RoleName);
+                var roleEntity =  await _roleService.CreateRoleAsync(customer.RoleName);
                 var addressEntity = _addressService.CreateAddress(customer.StreetName, customer.PostalCode, customer.City);
 
                 var customerEntity = new CustomerEntity
@@ -52,8 +53,8 @@ public class CustomerService
                 var customerResult = await _customerRepository.CreateAsync(customerEntity);
                 if (customerResult != null)
                 {
-                    var contactEntity = _contactService.CreateContact(customer.FirstName, customer.LastName, customer.PhoneNumber!, customerResult.Id);
-                    var authEntity = _authService.CreateAuth(customer.LoginName, customer.Pass, customerResult.Id);
+                    var contactInformationEntity = _contactService.CreateContact(customer.FirstName, customer.LastName, customer.PhoneNumber!, customerResult.Id);
+                    var authenticationEntity = _authService.CreateAuth(customer.LoginName, customer.Pass, customerResult.Id);
                 }
                 return customerResult!;
             }
@@ -63,9 +64,7 @@ public class CustomerService
     }
 
 
-    //Create
-
-    public CustomerEntity CreateCustomer (CustomerDto customer)
+    public CustomerEntity CreateCustomer(CustomerDto customer)
     {
         try
         {
@@ -82,30 +81,32 @@ public class CustomerService
                 };
 
                 var customerResult = _customerRepository.Create(customerEntity);
+
                 if (customerResult != null)
                 {
-                    var contactEntity = _contactService.CreateContact(customer.FirstName, customer.LastName, customer.PhoneNumber!, customerResult.Id);
-                    var authEntity = _authService.CreateAuth(customer.LoginName, customer.Pass, customerResult.Id);
+                    var contactInformationEntity = _contactService.CreateContact(customer.FirstName, customer.LastName, customer.PhoneNumber!, customerResult.Id);
+                    var authenticationEntity = _authService.CreateAuth(customer.LoginName, customer.Pass, customerResult.Id);
                 }
                 return customerResult!;
             }
-
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return null!;
     }
 
-                        //GetAll
+
+
+    //Get All Customers
     public IEnumerable<CustomerDto> GetAllCustomers()
     {
         var customers = new List<CustomerDto>();
         try
         {
             var result = _customerRepository.GetAll();
-            if(result != null)
+
+            if (result != null)
             {
-                foreach ( var customer in result)
-                {
+                foreach (var customer in result)
                     customers.Add(new CustomerDto
                     {
                         Id = customer.Id,
@@ -120,33 +121,32 @@ public class CustomerService
                         LoginName = customer.Auth.LoginName,
                         Pass = customer.Auth.Pass,
                     });
-                }
-                return customers;
             }
+            return customers;
+
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return null!;
+
+
     }
 
-
-                //GetOne By Id
-
-    public CustomerEntity GetCustomerById(CustomerDto customerDto)
+    // Get One Customer 
+   
+    public CustomerEntity GetCustomerById(CustomerDto customer)
     {
-        var customerEntity = _customerRepository.GetOne(x => x.Id == customerDto.Id);
+        var customerEntity = _customerRepository.GetOne(x => x.Id == customer.Id);
         return customerEntity;
     }
 
-    //GetOne By Email
-
-    public CustomerEntity GetCustomerByEmail(CustomerDto customerDto)
+    
+    public CustomerEntity GetCustomerByEmail(CustomerDto customer)
     {
-        var customerEntity = _customerRepository.GetOne(x => x.Email == customerDto.Email);
+        var customerEntity = _customerRepository.GetOne(x => x.Email == customer.Email);
         return customerEntity;
     }
 
 
-                 //Update Async Email
     public async Task<CustomerEntity> UpdateCustomerEmailAsync(CustomerDto updatedCustomer)
     {
         try
@@ -169,19 +169,21 @@ public class CustomerService
 
 
 
-                //Update Async 
+
+    //Update Custoemr
+
     public async Task<CustomerEntity> UpdateCustomerAsync(CustomerDto updatedCustomer)
     {
         try
         {
-            var entity =await _customerRepository.GetOneAsync(x=>x.Id == updatedCustomer.Id);
-            if(entity != null)
+            var entity = await _customerRepository.GetOneAsync(x => x.Id == updatedCustomer.Id);
+            if (entity != null)
             {
                 var roleEntity = _roleService.CreateRole(updatedCustomer.RoleName);
                 var addressEntity = _addressService.CreateAddress(updatedCustomer.StreetName, updatedCustomer.PostalCode, updatedCustomer.City);
 
+                entity.Email = updatedCustomer.Email;
                 entity.AddressId = addressEntity.Id;
-                entity.Email= updatedCustomer.Email;
                 entity.RoleId = roleEntity.Id;
 
                 var customerEntity = new CustomerEntity
@@ -194,31 +196,27 @@ public class CustomerService
 
                 var result = await _customerRepository.UpdateAsync(x => x.Id == updatedCustomer.Id, entity);
 
-                var contactEntity = await _contactService.UpdateContactAsync(updatedCustomer.Id, updatedCustomer.FirstName, updatedCustomer.LastName, updatedCustomer.PhoneNumber);
-                var authEntity = await _authService.UpdateAuthAsync(updatedCustomer.Id, updatedCustomer.LoginName, updatedCustomer.Pass);
+                    var contactInformationEntity = await _contactService.UpdateContactAsync(updatedCustomer.Id, updatedCustomer.FirstName, updatedCustomer.LastName, updatedCustomer.PhoneNumber);
+                    var authenticationEntity = await _authService.UpdateAuthAsync(updatedCustomer.Id, updatedCustomer.LoginName, updatedCustomer.Pass);
 
                 return result;
             }
-
         }
-        catch (Exception ex)
-        {
-            Debug.WriteLine("ERROR :: " + ex.Message);
-        }
-
+        catch { }
         return null!;
     }
 
-            
+    //Delete customer
     
-                //Delete
-    public void DeleteCustomer(CustomerDto customerDto)
+
+    //public void DeleteCustomer(Guid id)
+    //{
+    //    _customerRepository.Delete(x => x.Id == id);
+    //}
+
+    public bool DeleteCustomer(CustomerDto customer)
     {
-        _customerRepository.Delete(x=>x.Email == customerDto.Email);
+        _customerRepository.Delete(x => x.Email == customer.Email);
+        return true;
     }
-
-
-
-
-
 }

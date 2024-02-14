@@ -1,13 +1,14 @@
 ﻿
 
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infrastructure.Entitites;
 
 public class ContactEntity
 {
     [Key]
-
+    [ForeignKey(nameof(Customer))]
     public Guid CustomerId { get; set; }
 
     [Required]

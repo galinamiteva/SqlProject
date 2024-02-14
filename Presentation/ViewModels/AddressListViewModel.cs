@@ -37,7 +37,7 @@ public partial class AddressListViewModel: ObservableObject
     {
         if (string.IsNullOrWhiteSpace(Address.StreetName) || string.IsNullOrWhiteSpace(Address.PostalCode) || string.IsNullOrWhiteSpace(Address.City))
         {
-            MessageBox.Show("Address fields can not be empty, please enter a address", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("Address fields can not be empty, please enter an address", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
 
@@ -65,5 +65,11 @@ public partial class AddressListViewModel: ObservableObject
     {
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<RoleListViewModel>();
+    }
+
+    private void NavigateToAddresses()
+    {
+        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<AddressListViewModel>();
     }
 }

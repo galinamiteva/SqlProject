@@ -56,7 +56,7 @@ public partial class UpdateCustomerViewModel: ObservableObject
         await _customerService.UpdateCustomerAsync(Customer);
 
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<CustomerListViewModel>();
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<DetailsCustomerViewModel>();
 
     }
 

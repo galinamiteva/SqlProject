@@ -24,6 +24,7 @@ public partial class RoleListViewModel: ObservableObject
     private ObservableCollection<RoleDto> roleList = [];
 
 
+
     [ObservableProperty]
     private ObservableCollection<CustomerDto>  _customerList= new ObservableCollection<CustomerDto>();
 
@@ -64,7 +65,7 @@ public partial class RoleListViewModel: ObservableObject
     {
         if (CustomerList.Any(customer => customer.RoleName == role.RoleName))
         {
-            MessageBoxResult result = MessageBox.Show($"There are registered users with role: {role.RoleName}. If you proceed with deletion, the user(s) will also be removed.", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            MessageBoxResult result = MessageBox.Show($"This is registered customer with role: {role.RoleName}. If you continue the customer will  be removed.", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Error);
 
             if (result == MessageBoxResult.Yes)
             {
