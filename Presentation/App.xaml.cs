@@ -40,26 +40,26 @@ public partial class App : Application
             services.AddScoped<ContactService>();
 
 
-            services.AddScoped<MainViewModel>();
-            services.AddScoped<MainWindow>();
+            services.AddSingleton<MainViewModel>();
+            services.AddSingleton<MainWindow>();
 
-            services.AddScoped<CustomerListViewModel>();
-            services.AddScoped<CustomerListView>();
+            services.AddSingleton<CustomerListViewModel>();
+            services.AddSingleton<CustomerListView>();
 
-            services.AddScoped<AddCustomerViewModel>();
-            services.AddScoped<AddCustomerView>();
+            services.AddTransient<AddCustomerViewModel>();
+            services.AddTransient<AddCustomerView>();
 
             services.AddScoped<DetailsCustomerViewModel>();
             services.AddScoped<DetailCustomerView>();
 
-            services.AddScoped<UpdateCustomerViewModel>();
-            services.AddScoped<UpdateCustomerView>();
+            services.AddSingleton<UpdateCustomerViewModel>();
+            services.AddSingleton<UpdateCustomerView>();
 
-            services.AddScoped<RoleListViewModel>();
-            services.AddScoped<RoleListView>();
+            services.AddSingleton<RoleListViewModel>();
+            services.AddSingleton<RoleListView>();
 
-            services.AddScoped<AddressListViewModel>();
-            services.AddScoped<AddressListView>();
+            services.AddSingleton<AddressListViewModel>();
+            services.AddSingleton<AddressListView>();
 
         }).Build();
 

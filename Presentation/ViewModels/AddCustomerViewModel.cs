@@ -49,16 +49,8 @@ public partial class AddCustomerViewModel: ObservableObject
 
     private async Task AddCustomer(CustomerDto customer)
     {
-        if (SelectedRole != null)
-        {
-            Customer.RoleName = SelectedRole.RoleName;
-
-        }
-
-        await _customerService.CreateCustomerAsync(customer);
-        CustomerList = new ObservableCollection<CustomerDto>(_customerService.GetAllCustomers());
-
-        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+		await _customerService.CreateCustomerAsync(Customer);
+		var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<CustomerListViewModel>();
     }
 

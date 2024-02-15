@@ -32,15 +32,15 @@ public class CustomerService
 
 
     //Create 
-    
-  
-  public async Task<CustomerEntity> CreateCustomerAsync(CustomerDto customer)
+
+
+    public async Task<CustomerEntity> CreateCustomerAsync(CustomerDto customer)
     {
         try
         {
-             if (!_customerRepository.Exists(x => x.Email == customer.Email))
-                {
-                var roleEntity =  await _roleService.CreateRoleAsync(customer.RoleName);
+            if (!_customerRepository.Exists(x => x.Email == customer.Email))
+            {
+                var roleEntity = await _roleService.CreateRoleAsync(customer.RoleName);
                 var addressEntity = _addressService.CreateAddress(customer.StreetName, customer.PostalCode, customer.City);
 
                 var customerEntity = new CustomerEntity
@@ -62,6 +62,8 @@ public class CustomerService
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return null!;
     }
+
+
 
 
     public CustomerEntity CreateCustomer(CustomerDto customer)
